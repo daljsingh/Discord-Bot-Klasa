@@ -1,0 +1,20 @@
+{
+    "botToken": "Mjg0NDMwOTI2NjQ4NDQyODkw.DJzK3w.INNQ9gI6m28d4GA557q_bgWuPH0",
+    "botSettings": {
+	    "ownerID": "130136895395987456",
+	    "clientID": "284430926648442890",
+	    "prefix": "$",
+	    "passes": 4,
+	    "clientOptions": {
+	        "fetchAllMembers": true
+	    },
+		"cmdLogging": true
+    },
+	"lottery": {
+		"onOff": "true",
+		"chance": "100",
+		"amount": "250",
+		"cooldown": "60"
+	},
+    "vgKey": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzMjhiYmViMC02ZjAwLTAxMzUtOTIxNS02Mjc3YWFkYjY5Y2QiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNTA0MDIyMDQwLCJwdWIiOiJzZW1jIiwidGl0bGUiOiJ2YWluZ2xvcnkiLCJhcHAiOiI4YjNjMGY2MC1kYzYyLTAxMzQtNWQ3Ny0wMjQyYWMxMTAwMDQiLCJzY29wZSI6ImNvbW11bml0eSIsImxpbWl0IjoxNTB9.aEmHHceKtFDhfF5G7GUrE3f-f0cGEl-wSBCjmldSLhY"
+}
