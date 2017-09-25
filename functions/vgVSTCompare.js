@@ -13,7 +13,7 @@ module.exports = (client, array, boolean) => {
       player = data[i]
       output += `${player[0].padEnd(16)} ${client.funcs.vgVST(player[1])}\n`
     }
-  // If VST is not the category
+  // If VST is not the category 
   } else {
     // Add winner at top and Bold.
     output += `**${player[0].padEnd(16)} ${player[1]}**\n`

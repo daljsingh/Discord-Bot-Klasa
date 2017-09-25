@@ -3,7 +3,7 @@ exports.run = async (client, msg, [type, ...content]) => {
     if (type === 'bug') {
       client.channels.get('289786031434104832').send(`Bug Report From: ${msg.author} in ${msg.guild}\n\n ${content.toString().replace(/,/g, ' ')}`)
     } else if (type === 'idea') {
-      client.channels.get('347482857624829954').send(`New Idea From: ${msg.author} in ${msg.guild}\n\n ${content.toString().replace(/,/g, ' ')}`)
+      client.channels.get('291987845131010050').send(`New Idea From: ${msg.author} in ${msg.guild}\n\n ${content.toString().replace(/,/g, ' ')}`)
     } else {
       client.channels.get('292168218385055744').send(`New Message From: ${msg.author} in ${msg.guild}\n\n ${content.toString().replace(/,/g, ' ')}`)
     }

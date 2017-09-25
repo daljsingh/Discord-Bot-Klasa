@@ -6,6 +6,8 @@ module.exports = (items) => {
   let itemEmojis = '';
   const allItems = {
     'poisoned shiv': '<:048:333992835558932491>',
+    'spellsword': '<:sps:356219754790256640>',
+    'healing flask': '<:hf:356219754601512961>',
     'nullwave gauntlet': '<:044:333992835571515422>',
     'crystal bit': '<:016:333992823571480577>',
     'piercing spear': '<:047:333992834094989312>',

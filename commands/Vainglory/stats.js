@@ -3,7 +3,17 @@ const config = require('../../config/config.json')
 const moment = require('moment')
 moment().format()
 
-exports.run = async (client, msg, [ign, region, ...mode]) => {
+exports.run = async (client, msg, [ign, server, ...mode]) => {
+  let region = server
+  if (server === 'sea') {
+    region = 'sg'
+  }
+  if (!ign) {
+    const name = await client.funcs.useIGN(client, msg)
+    ign = name.ign
+    region = name.region
+  }
+  if (!ign) return msg.channel.send('Are you sure you did the save command first? **$save IGN region**')
   const gameModes = {
     'private casual': 0,
     'private blitz': 0,
@@ -180,17 +190,17 @@ Gold/sec: ${Math.round(golds / durations)}`, true)
 exports.conf = {
   enabled: true,
   runIn: ['text', 'dm', 'group'],
-  aliases: ['vgs'],
+  aliases: ['vgs', 's'],
   permLevel: 0,
   botPerms: [],
-  requiredFuncs: ['capitalize', 'vgModeGames', 'vgGameModes', 'vgHeroes', 'vgVST', 'vgKarma', 'vgItems'],
+  requiredFuncs: ['capitalize', 'vgModeGames', 'vgGameModes', 'vgHeroes', 'vgVST', 'vgKarma', 'vgItems', 'useIGN'],
   cooldown: 0
 }
 
 exports.help = {
   name: 'stats',
   description: 'See your stats based on the matches made in last 28 days. You can also filter by game modes.',
-  usage: '<ign:str{1,16}> [na|sa|eu|sea|sg|ea|cn|tna|teu|tsa|tsea|tsg|tea|tcn] [mode:str{1,16}] [...]',
+  usage: '[ign:str{1,16}] [na|sa|eu|sea|sg|ea|cn|tna|teu|tsa|tsea|tsg|tea|tcn] [mode:str{1,16}] [...]',
   usageDelim: ' ',
   extendedHelp: 'vgs IGN Region'
 }
