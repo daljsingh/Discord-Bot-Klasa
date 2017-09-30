@@ -17,7 +17,6 @@ exports.run = (client, msg, mes, start) => {
       setTimeout(() => {
         msg.channel.send({ embed })
         client.channels.get('358074822678413314').send({ embed }) // LLC Server
-        client.channels.get('323559624672411649').send({ embed }) // HH Server
       }, 1000)
     }
   }
