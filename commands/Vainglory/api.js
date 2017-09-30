@@ -57,6 +57,9 @@ function getMatch (region) {
     const latest = new Date() - Date.parse(matches.data[0].attributes.createdAt)
     status.push(`Region: ${matches.data[0].attributes.shardId.toUpperCase()} ✅`)
     status.push(timeDiff(latest))
+    if (Math.floor((((latest / 1000) / 60) % 60)) > 10) {
+      
+    }
     if (endCall - startCall < 500) {
       timer.push(`Speed: ${endCall - startCall} ms <:green:348547069859856384>`)
     } else if (endCall - startCall < 800) {
@@ -97,12 +100,12 @@ function getTourney (region) {
 }
 exports.run = async (client, msg) => {
   try {
-    vainglory.status().then((info) => {
+    await vainglory.status().then((info) => {
       mgStatus = `Gamelocker Version: ${info.version} | Last Updated: ${info.releasedAt}`
     })
     for (let i = 0; i < publicRegions.length; i += 1) {
-      getMatch(publicRegions[i])
-      getTourney(publicRegions[i])
+      await getMatch(publicRegions[i])
+      await getTourney(publicRegions[i])
     }
     setTimeout(() => {
       for (let i = 0; i < status.length; i += 1) {
