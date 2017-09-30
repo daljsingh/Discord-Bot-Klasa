@@ -50,7 +50,7 @@ module.exports = (data, ign, player, region) => {
     if (data.p1Ign === ign) {
       playerOutput = `**__${data.p1Ign}__**\n`
     } else {
-      playerOutput = `[${data.p1Ign}](${vgpro}${data.p1Ign})\n`
+      playerOutput = `${data.p1Ign}\n`
     }
     playerOutput += `${p1.hero}${p1.vst}${p1.item}\nKDA: ${p1.k}/${p1.d}/${p1.a}      CS: ${data.p1CS}     CS/min: ${p1.csm}     Jungle: ${p1.j}     Gold: ${data.p1Gold}      Gold/min: ${p1.gm}`
     if (data.p1Miners > 0 || data.p1GMiners > 0) {
@@ -115,7 +115,7 @@ module.exports = (data, ign, player, region) => {
     if (data.p6Ign === ign) {
       playerOutput = `**__${data.p6Ign}__**\n`
     } else {
-      playerOutput = `[${data.p6Ign}](${vgpro}${data.p6Ign})\n`
+      playerOutput = `${data.p6Ign}\n`
     }
     playerOutput += `${data.p6Hero}${data.p6VST}${data.p6Items}\nKDA: ${data.p6Kills}/${data.p6Deaths}/${data.p6Assists}      CS: ${data.p6CS}     CS/min: ${Math.floor(data.p6CS / (data.duration / 60))}     Jungle: ${data.p6JungleKills}     Gold: ${data.p6Gold}      Gold/min: ${Math.floor(data.p6GoldMin / (data.duration / 60)).toLocaleString()}`
     if (data.p6Miners > 0 || data.p6GMiners > 0) {
