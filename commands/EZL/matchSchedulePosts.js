@@ -9,11 +9,11 @@ exports.run = async (client, msg, [...time]) => {
       region = '**Match Scheduled In NA**'
       break
     case '360624527694102528': // SEA
-    case '360624184256233472': // SEA
+    case '326539653899354113': // SEA
       region = '**Match Scheduled In SEA**'
       break
-    case '326539653899354113': // EU
     case '337185802897588226': // EU
+    case '360624184256233472': // EU
       region = '**Match Scheduled In EU**'
       break
     case '318123892302675968': // SA
