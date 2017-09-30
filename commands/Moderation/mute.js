@@ -18,8 +18,7 @@ exports.run = async (client, msg, [user]) => {
     }
     })
   } catch (e) {
-    msg.reply('Some error occured with muting the member. A report has been sent to the developers.')
-    client.channels.get('341020497309597696').send(`There was an error trying to mute: ${e} in ${msg.channel} on ${msg.guild} by ${msg.author}`)
+    msg.reply('Some error occured with muting the member. Are you sure there is a role on the server called **Time-Out**')
   }
 }
 
