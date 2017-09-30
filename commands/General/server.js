@@ -78,7 +78,7 @@ Voice: ${parseInt(server.channels) - parseInt(server.text)}`, true)
     .addField(`Active Members Since Last Bot Update: ${server.activity.length}`, `Daily:       ${server.daily.length}
 Weekly:  ${server.weekly.length}
 Monthly: ${server.monthly.length}`)
-    .addField(`Emojis: ${server.emojis}`, `${server.allEmojis}`, true)
+    // .addField(`Emojis: ${server.emojis}`, `${server.allEmojis}`, true)
   return msg.reply({ embed })
 }
 
