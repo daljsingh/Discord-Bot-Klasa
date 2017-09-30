@@ -27,10 +27,11 @@ exports.run = async (client, msg, [date, time, tz]) => {
     pdt: 'America/Los_Angeles',
     paris: 'Europe/Paris',
     bst: 'Europe/Guernsey',
-    sgt: 'Asia/Singapore'
+    sgt: 'Asia/Singapore',
+    cest: 'Europe/Andorra'
   }
   const myZones = ['est', 'cst', 'mst', 'pst', 'paris', 'bst', 'sgt']
-  const allZones = ['**__EST:__** ', '**__CST:__** ', '**__MST:__** ', '**__PST:__** ', '**__Paris:__** ', '**__BST:__** ', '**__SGT:__** ']
+  const allZones = ['**__EST:__** ', '**__CST:__** ', '**__MST:__** ', '**__PST:__** ', '**__Paris:__** ', '**__BST:__** ', '**__SGT:__** ', '**__CEST:__**']
   const zone = tz.toLowerCase()
   const m = moment.tz(`${date} ${time}`, abbrs[zone])
   let full = ''
