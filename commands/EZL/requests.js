@@ -1,9 +1,6 @@
 exports.run = async (client, msg, [dep, ...req]) => {
   if (msg.guild.id !== '282541228904546305') return msg.channel.send('Sorry this is a command only meant for EZL Staff Server.')
   const final = await req.join(' ')
-  console.log(final)
-  console.log('============')
-  console.log(req)
   switch (dep) {
     case 'translate':
       await client.channels.get('277391272770273282').send(final)

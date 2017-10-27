@@ -5,26 +5,6 @@ exports.run = async (client, msg, [ign, server]) => {
     if (server === 'sg') {
       region = 'sea'
     }
-    const roleIds = ['363135242485366784', '363135288303943680', '363135341710016512', '363135325511352320', '363135360387252225', '363135383095214083']
-    const allRoles = {
-      na: '363135242485366784',
-      eu: '363135288303943680',
-      sea: '363135341710016512',
-      sa: '363135325511352320',
-      ea: '363135360387252225',
-      cn: '363135383095214083'
-    }
-    if (!check) {
-      await client.guilds.get('67200685216641024').members.get(msg.author.id).setNickname(`${ign} - ${server.toUpperCase()}`)
-      await client.guilds.get('67200685216641024').members.get(msg.author.id).removeRoles(roleIds)
-      await client.guilds.get('67200685216641024').members.get(msg.author.id).addRole(allRoles[server])
-    } else {
-      if (!check.changed) {
-        await client.guilds.get('67200685216641024').members.get(msg.author.id).setNickname(`${ign} - ${server.toUpperCase()}`)
-        await client.guilds.get('67200685216641024').members.get(msg.author.id).removeRoles(roleIds)
-        await client.guilds.get('67200685216641024').members.get(msg.author.id).addRole(allRoles[server])
-      }
-    }
     if (check) {
       await client.providers.get('mongodb').update('savevg', msg.author.id, { changed: true })
     } else {

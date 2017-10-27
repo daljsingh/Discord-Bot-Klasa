@@ -65,7 +65,7 @@ module.exports = (data, ign, player, region) => {
     } else {
       playerOutput = `[${data.p2Ign}](${vgpro}${data.p2Ign})\n`
     }
-    playerOutput += `${p2.hero}${p2.vst}${p2.item}\nKDA: ${p2.k}/${p2.d}/${p2.a}      CS: ${data.p2CS}     CS/min: ${p2.csm}     Jungle: ${p2.j}     Gold: ${data.p1Gold}      Gold/min: ${p2.gm}`
+    playerOutput += `${p2.hero}${p2.vst}${p2.item}\nKDA: ${p2.k}/${p2.d}/${p2.a}      CS: ${data.p2CS}     CS/min: ${p2.csm}     Jungle: ${p2.j}     Gold: ${data.p2Gold}      Gold/min: ${p2.gm}`
     if (data.p2Miners > 0 || data.p2GMiners > 0) {
       playerOutput += `     Miners C/G: ${data.p2Miners}/${data.p2GMiners}`
     }
@@ -78,7 +78,7 @@ module.exports = (data, ign, player, region) => {
     } else {
       playerOutput = `*${data.p3Ign}*\n`
     }
-    playerOutput += `${p3.hero}${p3.vst}${p3.item}\nKDA: ${p3.k}/${p3.d}/${p3.a}      CS: ${data.p3CS}     CS/min: ${p3.csm}     Jungle: ${p3.j}     Gold: ${data.p1Gold}      Gold/min: ${p3.gm}`
+    playerOutput += `${p3.hero}${p3.vst}${p3.item}\nKDA: ${p3.k}/${p3.d}/${p3.a}      CS: ${data.p3CS}     CS/min: ${p3.csm}     Jungle: ${p3.j}     Gold: ${data.p3Gold}      Gold/min: ${p3.gm}`
     if (data.p3Miners > 0 || data.p3GMiners > 0) {
       playerOutput += `     Miners C/G: ${data.p3Miners}/${data.p3GMiners}`
     }

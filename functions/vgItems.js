@@ -1,9 +1,9 @@
 module.exports = (items) => {
-  const heroItems = [];
+  const heroItems = []
   for (let i = 0; i < items.length; i += 1) {
-    heroItems.push(items[i].toLowerCase());
+    heroItems.push(items[i].toLowerCase())
   }
-  let itemEmojis = '';
+  let itemEmojis = ''
   const allItems = {
     'poisoned shiv': '<:048:333992835558932491>',
     'spellsword': '<:sps:356219754790256640>',
@@ -20,7 +20,9 @@ module.exports = (items) => {
     lifespring: '<:037:333992834627534860>',
     aftershock: '<:002:333992807050248194>',
     'fountain of renewal': '<:026:333992832249495555>',
-    echo: '<:020:333992835080650762>',
+    "dragon's eye": '<:101:367692414120361984>',
+    spellfire: '<:102:367692413797531649>',
+    echo: '<:103:367692549709627395>',
     'heavy steel': '<:031:333992824792023061>',
     'journey boots': '<:034:333992829456089088>',
     flare: '<:024:333992819406667779>',
@@ -76,16 +78,16 @@ module.exports = (items) => {
     shiversteel: '<:055:333994044894085122>',
     'swift shooter': '<:062:333994039667851266>',
     'stormguard banner': '<:061:333994046043455489>',
-    'serpent mask': '<:053:333994044868919296>',
-  };
-  for (let i = 0; i < items.length; i += 1) {
-    itemEmojis += allItems[heroItems[i]];
+    'serpent mask': '<:053:333994044868919296>'
   }
-  return itemEmojis;
-};
-module.exports.conf = { requiredModules: [] };
+  for (let i = 0; i < items.length; i += 1) {
+    itemEmojis += allItems[heroItems[i]]
+  }
+  return itemEmojis
+}
+module.exports.conf = { requiredModules: [] }
 module.exports.help = {
   name: 'vgItems',
   type: 'functions',
-  description: 'Converts input into a different cleaner output',
-};
+  description: 'Converts input into a different cleaner output'
+}

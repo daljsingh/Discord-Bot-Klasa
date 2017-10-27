@@ -199,25 +199,16 @@ exports.run = async (client, msg, [ign, server, amount]) => {
       let winLose = ''
       if (ign === data.p1Ign || ign === data.p2Ign || ign === data.p3Ign) {
         team = 'blue'
-        console.log(team)
-        if (matches.match[num].matchRoster[0].data.attributes.won === 'true') {
-          console.log('if true')
-          
+        if (matches.match[num].matchRoster[0].data.attributes.won === 'true') {          
           winLose = 'Victory'
         } else {
-          console.log('if false')
           winLose = 'Defeat'
         }
       } else {
         team = 'red'
-        console.log(team)
-        console.log(matches.match[num].matchRoster[0].data.attributes.won)
-        console.log(matches.match[num].matchRoster[1].data.attributes.won)
         if (matches.match[num].matchRoster[1].data.attributes.won === 'true') {
-          console.log('if true')
           winLose = 'Victory'
         } else {
-          console.log('if false')
           winLose = 'Defeat'
         }
       }

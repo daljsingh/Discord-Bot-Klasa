@@ -3,6 +3,7 @@ const config = require('../../config/config.json')
 
 exports.run = async (client, msg, [ign, region, ign2, region2,
   ign3, region3, ign4, region4, ign5, region5, ign6, region6]) => {
+    return msg.reply('This is still in testing, soon you will see some beautiful stuff here')
   const options = {
     host: 'https://api.dc01.gamelockerapp.com/shards/',
     region: (region || 'na'),
@@ -132,55 +133,4 @@ exports.help = {
   extendedHelp: ''
 }
 
-function sortAndPrint (eloFo, eloFi, eloSi, eloSe) {
-  // Sorting all the elo arrays
-  eloFo = eloFo.sort(function (a, b) {
-    return b[1] - a[1]
-  })
-  eloFi = eloFi.sort(function (a, b) {
-    return b[1] - a[1]
-  })
-  eloSi = eloSi.sort(function (a, b) {
-    return b[1] - a[1]
-  })
-  eloSe = eloSe.sort(function (a, b) {
-    return b[1] - a[1]
-  })
-  let prints = []
-  // Starting to make the player strings for ELO
-  for (let i = 0; i < eloFo.length; i++) {
-    prints.push([eloFo[i][0], `${eloFo[i][0]}: `])
-  }
-  // Adding Season 4 elo’s to the player strings
-  let answer = ``
-  saveLines(eloFo, prints, 4, ': ')
-  saveLines(eloFi, prints, 5, ': ')
-  saveLines(eloSi, prints, 6, ': ')
-  saveLines(eloSe, prints, 7, ': ')
-  // adding all the player lines into one big string
-  for (let i = 0; i < prints.length; i++) { answer += i !== prints.length - 1 ? `${prints[i][1]}\n` : `${prints[i][1]}` }
-  return answer
-}
-function saveLines (arr, prints, number, preceding) {
-  // LOOPING THROUGH THE ARRAY WITH ELOS... PRINTS HOLDS THE STRINGS WE WANT IN EMBED
-  for (let i = 0; i < arr.length; i++) {
-    let index = 0
-    // THIS FINDS THE INDEX ON PRINTS WHICH HOLDS THE SAME PLAYER AS ARR[i]
-    for (index = 0; index < prints.length; index++) {
-      if (prints[index][0] === arr[i][0]) break
-    }
-    // IF THE ELO IS 0 DO NOT INCLUDE IN THE STRING (continue goes to the next iteration of a loop which is the outer one in this case)
-    if (arr[i][1] === 0) continue
-    // IF THE PLAYER ELO IS THE HIGHEST (FIRST ELEMENT) ADD BOLDED ELO OTHERWISE DONT
-    if (i === 0) {
-      // IF THE HIGHEST PLAYER ELO ==2nd HIGHEST PLAYER ELO DONT INCLUDE BOLD BECAUSE NO ONE WON
-      if (arr[i][0] === arr[i][1]) { prints[index][1] += prints[index][1].charAt(prints[index][1].length - 1) === ` ` ? `${number}:${arr[i][1]}` : `${preceding}${number}:${arr[i][1]}` } else {
-      /// ELSE ADD BOLDING
-        prints[index][1] += prints[index][1].charAt(prints[index][1].length - 1) === ` ` ? `${number}: **${arr[i][1]}**` : `${preceding}${number}: **${arr[i][1]}**`
-      }
-    } else {
-      // SECOND AND SUBSEQUENT PLAYERS WHO DONT HAVE HIGHEST ELOS GET THEIR NUMBERS ADDED eg. DestinyKarma- (season#):(season elo)
-      prints[index][1] += prints[index][1].charAt(prints[index][1].length - 1) === ` ` ? `${number}: ${arr[i][1]}` : `${preceding}${number}: ${arr[i][1]}`
-    }
-  }
-}
+

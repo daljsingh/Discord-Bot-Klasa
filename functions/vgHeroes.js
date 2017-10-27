@@ -8,6 +8,7 @@ module.exports = (hero) => {
     blackfeather: '<:006:334004948301774858>',
     catherine: '<:007:334004945005051925>',
     celeste: '<:008:334004952844468237>',
+    churnwalker: '<:103:367692339986038794>',
     flicker: '<:009:334004991239127040>',
     fortress: '<:010:334004995726770187>',
     glaive: '<:011:334004989187981312>',
@@ -33,14 +34,13 @@ module.exports = (hero) => {
     skaarf: '<:030:334004993642332160>',
     skye: '<:031:334004990991663104>',
     taka: '<:032:334004995961782272>',
-    vox: '<:034:334004996985323520>',
-
-  };
-  return heros[hero.toLowerCase().slice(1, -1)];
-};
-module.exports.conf = { requiredModules: [] };
+    vox: '<:034:334004996985323520>'
+  }
+  return heros[hero.toLowerCase().slice(1, -1)]
+}
+module.exports.conf = { requiredModules: [] }
 module.exports.help = {
   name: 'vgGameModes',
   type: 'functions',
-  description: 'Converts input into a different cleaner output',
-};
+  description: 'Converts input into a different cleaner output'
+}

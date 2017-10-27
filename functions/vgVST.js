@@ -1,38 +1,38 @@
 module.exports = (skillTier, thumbnail) => {
   if (thumbnail) {
     const skillTiers = {
-      '-1': 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/unranked.png',
-      0: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_01a.png',
-      1: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_01b.png',
-      2: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_01c.png',
-      3: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_02a.png',
-      4: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_02b.png',
-      5: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_02c.png',
-      6: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_03a.png',
-      7: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_03b.png',
-      8: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_03c.png',
-      9: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_04a.png',
-      10: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_04b.png',
-      11: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_04c.png',
-      12: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_05a.png',
-      13: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_05b.png',
-      14: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_05c.png',
-      15: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_06a.png',
-      16: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_06b.png',
-      17: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_06c.png',
-      18: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_07a.png',
-      19: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_07b.png',
-      20: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_07c.png',
-      21: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_08a.png',
-      22: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_08b.png',
-      23: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_08c.png',
-      24: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_09a.png',
-      25: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_09b.png',
-      26: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_09c.png',
-      27: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_10a.png',
-      28: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_10b.png',
-      29: 'https://media.githubusercontent.com/media/gamelocker/vainglory/master/assets/skill_tiers/tier_10c.png',
-    };
+      '-1': 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/unranked.png',
+      0: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_01a.png',
+      1: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_01b.png',
+      2: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_01c.png',
+      3: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_02a.png',
+      4: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_02b.png',
+      5: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_02c.png',
+      6: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_03a.png',
+      7: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_03b.png',
+      8: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_03c.png',
+      9: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_04a.png',
+      10: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_04b.png',
+      11: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_04c.png',
+      12: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_05a.png',
+      13: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_05b.png',
+      14: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_05c.png',
+      15: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_06a.png',
+      16: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_06b.png',
+      17: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_06c.png',
+      18: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_07a.png',
+      19: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_07b.png',
+      20: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_07c.png',
+      21: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_08a.png',
+      22: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_08b.png',
+      23: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_08c.png',
+      24: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_09a.png',
+      25: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_09b.png',
+      26: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_09c.png',
+      27: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_10a.png',
+      28: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_10b.png',
+      29: 'https://media.githubusercontent.com/media/gamelocker/vainglory-assets/master/assets/skill_tiers/tier_10c.png'
+    }
     return skillTiers[skillTier]
   }
   const skillTiers = {
@@ -66,13 +66,13 @@ module.exports = (skillTier, thumbnail) => {
     26: '<:029:336227446691069952>',
     27: '<:024:336227371659296780>',
     28: '<:025:336227396426399754>',
-    29: '<:026:336227453251092480>',
-  };
-  return skillTiers[skillTier];
-};
-module.exports.conf = { requiredModules: [] };
+    29: '<:026:336227453251092480>'
+  }
+  return skillTiers[skillTier]
+}
+module.exports.conf = { requiredModules: [] }
 module.exports.help = {
   name: 'vgVST',
   type: 'functions',
-  description: 'Converts input into a different cleaner output',
-};
+  description: 'Converts input into a different cleaner output'
+}

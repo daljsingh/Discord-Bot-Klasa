@@ -29,8 +29,9 @@ exports.run = async (client, msg, [ign, server]) => {
         msg.reply('Please check the IGN and Region and try again. An error report was sent to the developers.')
         return console.log(players)
       }
-      console.log(players.player[0].stats)
+      
       const stats = players.player[0].stats
+      console.log(stats)
       const total = parseInt(stats.played_casual, 10) + parseInt(stats.played_ranked, 10) + parseInt(stats.played_aral, 10) + parseInt(stats.played_blitz, 10)
       const embed = new client.methods.Embed()
         .setTitle(`Click Here For More Details At VGPRO.GG`)

@@ -1,6 +1,4 @@
 exports.run = async (client, msg, [...time]) => {
-  console.log(time)
-  console.log(time.join(' '))
   const final = await time.join(' ')
   let region = ''
   switch (msg.channel.id) {
