@@ -22,14 +22,14 @@ module.exports = class extends Command {
   async run (msg, [type]) {
     const allowedTypes = ['rules', 'links']
     if (!allowedTypes.includes(type)) return msg.reply(`That is not a valid type. Valid types are ${allowedTypes.join(', ')}`)
-    const embed = new client.methods.Embed()
+    const embed = new this.clientmethods.Embed()
       .setColor(0x00AE86)
       .setURL('https://ezlgg.com/discord')
       .setTitle('Come Join The EZL Discord Server')
       .setFooter(`© Esports Zodiac League LLC (EZL)`)
     switch (type) {
       case 'rules':
-        embed.setAuthor('EZL Rules And Regulations', client.user.avatarURL())
+        embed.setAuthor('EZL Rules And Regulations', this.clientuser.avatarURL())
         embed.setDescription('Please read the following rules and guidelines for the EZL LLC server. Joining this server constitutes an agreement to abide by these rules. Failure to do so will result to your removal. This server has members of all ages, nationalities, creeds, religions, beliefs, orientations etc., so be respectful of others while you are here.')
         embed.addField('General Rules:', `:one: Vulgarity is strictly prohibited, its common sense. This includes but not limited to: text, audio, PFP, Discord tags.
   :two: Do not ask for personal information. This includes but not limited to phone numbers, social media accounts or chat apps info. 
