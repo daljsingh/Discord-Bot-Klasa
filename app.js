@@ -3,7 +3,7 @@ const config = require('./config/config.json')
 
 const client = new klasa.Client({
   clientOptions: {
-    fetchAllMembers: false
+    fetchAllMembers: true
   },
   prefix: '$',
   cmdEditing: true,
