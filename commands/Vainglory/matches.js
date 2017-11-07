@@ -38,11 +38,7 @@ module.exports = class extends Command {
       region = await vg.region(this.client, msg, lowerRegion)
     }
     if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
-    if (username && !server) {
-      region = await this.client.providers.get('json').get('regions', username).then((result) => {
-        return result.region
-      })
-    }
+    if (username && !server) region = await this.client.settings.users.get(msg.author.id).region
     if (!username) {
       name = await vg.useIGN(this.client, msg).then((data) => {
         return data
@@ -80,19 +76,10 @@ module.exports = class extends Command {
         console.log(matches)
         return msg.reply('Please check the IGN and Region and try again. The API returned an error saying incorrect IGN or region.')
       }
-      let winLose = ''
-      let players = 6
+      let winLose
       for (let i = 0; i < matches.data.length; i++) {
         let data = matchData.getData(matches, i)
         let team = data.side.b
-        for (let j = 1; j < players + 1; j++) {
-          let count = `p${j}`
-          const exists = await this.client.providers.get('json').has('regions', data.igns[count])
-          if (!exists) {
-            console.log(data.igns[count])
-            await this.client.providers.get('json').insert('regions', data.igns[count], { region })
-          }
-        }
         switch (ign) {
           case data.igns.p1:
           case data.igns.p2:

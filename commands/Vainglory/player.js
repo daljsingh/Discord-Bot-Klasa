@@ -46,9 +46,7 @@ module.exports = class extends Command {
     }
     if (username && !server) {
       ign = username
-      region = await this.client.providers.get('json').get('regions', username).then((result) => {
-        return result.region
-      })
+      region = await this.client.settings.users.get(msg.author.id).region
     }
     if (username) ign = username
     if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **!vgverify IGN Region**')

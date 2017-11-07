@@ -41,10 +41,7 @@ module.exports = class extends Command {
     }
     if (username && !server) {
       ign = username
-      region = await this.client.providers.get('json').get('regions', username).then((result) => {
-        if (!result) return msg.reply('⚠ Sorry, this account does not have a region saved in the database. Please try again with a region.')
-        if (result.region) return result.region
-      })
+      region = await this.client.settings.users.get(msg.author.id).region
     }
     if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **!vgverify IGN Region**')
     const gameModes = {}, heroes = {}
