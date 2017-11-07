@@ -3,11 +3,11 @@ const { Command } = require('klasa')
 module.exports = class extends Command {
   constructor (...args) {
     super(...args, {
-      name: 'yourCommandName',
+      name: 'schedule',
       enabled: true,
       runIn: ['text', 'dm', 'group'],
       cooldown: 0,
-      aliases: [],
+      aliases: ['sch'],
       permLevel: 0,
       botPerms: [],
       requiredSettings: [],
