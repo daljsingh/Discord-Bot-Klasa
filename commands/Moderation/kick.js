@@ -8,7 +8,7 @@ module.exports = class extends Command {
       runIn: ['text', 'dm', 'group'],
       cooldown: 0,
       aliases: [],
-      permLevel: 0,
+      permLevel: 7,
       botPerms: ['KICK_MEMBERS'],
       requiredSettings: [],
       description: 'Kicks a user from the server',
