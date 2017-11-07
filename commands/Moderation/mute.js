@@ -1,41 +1,35 @@
-exports.run = async (client, msg, [user]) => {
-  try {
-    await msg.mentions.members.first().addRole(msg.guild.roles.find('name', 'Time-Out'))
-    msg.reply('', { embed: {
-      color: 3447003,
-      author: {
-        name: client.user.username,
-        icon_url: client.user.avatarURL()
-      },
-      title: 'Time-Out Initiated!',
-      url: 'http://ezlgg.com',
-      description: `${user} is now in the time-out corner. 😃`,
-      timestamp: new Date(),
-      footer: {
-        icon_url: client.user.avatarURL,
-        text: '© Esports Zodiac League LLC (EZL)'
-      }
-    }
+const { Command } = require('klasa')
+import config from '../../config/config.json'
+
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'mute',
+      enabled: true,
+      runIn: ['text'],
+      cooldown: 0,
+      aliases: [],
+      permLevel: 7,
+      botPerms: ['MANAGE_ROLES'],
+      requiredSettings: [],
+      description: '',
+      quotedStringSupport: false,
+      usage: '[member:member]',
+      usageDelim: undefined,
+      extendedHelp: 'No extended help available.'
     })
-  } catch (e) {
-    msg.reply('Some error occured with muting the member. Are you sure there is a role on the server called **Time-Out**')
   }
-}
 
-exports.conf = {
-  enabled: true,
-  runIn: ['text'],
-  aliases: ['tout', 'mute'],
-  permLevel: 2,
-  botPerms: ['MUTE_MEMBERS'],
-  requiredFuncs: [],
-  cooldown: 0
-}
+  async run (msg, [member]) {
+    const mutedRole = await msg.guild.settings.mutedRole
+    if (!mutedRole) return msg.reply('You do not have a muted role in the guild settings. Please use `$conf set mutedRole` to set the role')
+    const hasRole = member.roles.get(mutedRole)
+    if (hasRole) member.removeRole(mutedRole)
+    else member.addRole(mutedRole)
+    return msg.reply(`${member} is now ${hasRole ? 'un-muted' : 'muted'}. 😃`)
+  }
 
-exports.help = {
-  name: 'mute',
-  description: 'Mutes a person on both text and voice.',
-  usage: '<user:user>',
-  usageDelim: '',
-  extendedHelp: "1) mute @user\n2) Requires the user to have a role called Moderators\n3) Bot requires Mute Members permissions.\n4) Requires a role that is called 'Time-Out' set up without any permissions and at a high level in the role settings as well as each channel permissions being edited with its settings."
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
+  }
 }
