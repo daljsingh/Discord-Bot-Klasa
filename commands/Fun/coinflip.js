@@ -1,20 +1,29 @@
-exports.run = (client, msg) => msg.reply(`You flipped ${Math.random() > 0.5 ? 'Heads' : 'Tails'}.`)
+const { Command } = require('klasa')
 
-exports.conf = {
-  enabled: true,
-  selfbot: false,
-  runIn: ['text', 'dm', 'group'],
-  aliases: ['coin'],
-  permLevel: 0,
-  botPerms: [],
-  requiredFuncs: [],
-  requiredModules: []
-}
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'coinflip',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: ['coin'],
+      permLevel: 0,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'Flips a (pseudo) fair coin.',
+      quotedStringSupport: false,
+      usage: '',
+      usageDelim: undefined,
+      extendedHelp: 'No extended help available.'
+    })
+  }
 
-exports.help = {
-  name: 'coinflip',
-  description: 'Flips a (pseudo) fair coin.',
-  usage: '',
-  usageDelim: '',
-  type: 'commands'
+  async run (msg, [...params]) {
+    return msg.reply(`You flipped ${Math.random() > 0.5 ? 'Heads' : 'Tails'}.`)
+  }
+
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
+  }
 }
