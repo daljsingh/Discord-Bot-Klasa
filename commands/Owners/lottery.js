@@ -1,47 +1,46 @@
-const config = require('../../config/config.json')
-exports.run = async (client, msg, [type, value]) => {
-  try {
-    /* Enables/disables lottery */
-    if (type === 'state') {
-      if (value === 'on' || value === 'off') {
-        config.lottery.onOff = value
-        msg.reply(`The ${type} has been set to ${value}`)
-      } else {
-        msg.reply('The value given was not on or off.')
-      }
-      /* Changes the chance of winning lottery */
-    } else if (type === 'chance') {
-      config.lottery.chance = value
-      msg.reply(`The ${type} has been set to ${value}`)
-      /* Changes the amount of ICE won on lottery */
-    } else if (type === 'amount') {
-      config.lottery.amount = value
-      msg.reply(`The ${type} has been set to ${value}`)
-      /* Changes the cooldown to win again in lottery */
-    } else if (type === 'cooldown') {
-      config.lottery.cooldown = value
-      msg.reply(`The ${type} has been set to ${value}`)
-    }
-  } catch (e) {
-    msg.reply('Some error occured with lotto comamnd. A report has been sent to the developers.')
-    client.channels.get('331965447039877121').send(`There was an error trying to lotto: ${e} in ${msg.channel} on ${msg.guild} by ${msg.author}`)
+import config from '../../config/config.json'
+import { Command } from 'klasa'
+
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'lottery',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: [],
+      permLevel: 10,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'Lottery settings',
+      quotedStringSupport: false,
+      usage: '<onOff|chance|amount|cooldown> <value:str>',
+      usageDelim: undefined,
+      extendedHelp: 'No extended help available.'
+    })
   }
-}
 
-exports.conf = {
-  enabled: true,
-  runIn: ['text', 'dm'],
-  aliases: [],
-  permLevel: 10,
-  botPerms: [],
-  requiredFuncs: [],
-  cooldown: 0
-}
+  async run (msg, [type, value]) {
+    switch (type) {
+      case 'state':
+        if (value !== 'on' || value !== 'off') return msg.reply('That is not a valid value for state')
+        config.lottery.onOff = value
+        break
+      case 'chance':
+        config.lottery.chance = value
+        break
+      case 'amount':
+        config.lottery.amount = value
+        break
+      case 'cooldown':
+        config.lottery.amount = value
+        break
+      default:
+    }
+    return msg.reply(`The ${type} has been set to ${value}`)
+  }
 
-exports.help = {
-  name: 'lottery',
-  description: 'Lottery Settings',
-  usage: '<onOff|chance|amount|cooldown> <value:str>',
-  usageDelim: ' ',
-  extendedHelp: ''
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
+  }
 }

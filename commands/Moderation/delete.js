@@ -5,7 +5,7 @@ module.exports = class extends Command {
     super(...args, {
       name: 'delete',
       enabled: true,
-      runIn: ['text', 'dm', 'group'],
+      runIn: ['text'],
       cooldown: 0,
       aliases: ['d'],
       permLevel: 0,
