@@ -1,25 +1,63 @@
+const { Command, RichDisplay } = require('klasa')
 const Vainglory = require('vainglory')
 const config = require('../../config/config.json')
+const vg = require('../../functions/vg.js')
+const matchData = require('../../functions/matches.js')
+const crypto = require('../../functions/crypto/crypto')
 const moment = require('moment')
 moment().format()
 
-exports.run = async (client, msg, [ign, server, amount]) => {
-  try {
-    let region = server
-    let num = amount
-    if (server === 'sea') {
-      region = 'sg'
-    } else if (!server) {
-      region = 'na'
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'matches',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: ['vgm', 'm', 'vgmatches'],
+      permLevel: 0,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'See your Vainglory match history in the last 28 days.',
+      quotedStringSupport: true,
+      usage: '[username:str] [server:str] [mode:str] [...]',
+      usageDelim: ' ',
+      extendedHelp: 'No extended help available.'
+    })
+    this.album = new RichDisplay(
+      new this.client.methods.Embed()
+        .setFooter('© Super Evil Megacorp'))
+  }
+
+  async run (msg, [username, server, mode]) {
+    this.album.pages = []
+    let region, name, ign, lowerRegion
+    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn']
+    if (server) {
+      lowerRegion = server.toLowerCase()
+      region = await vg.region(this.client, msg, lowerRegion)
     }
-    if (!ign) {
-      const name = await client.funcs.useIGN(client, msg)
-      ign = name.ign
-      region = name.region
+    if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
+    if (username && !server) {
+      region = await this.client.providers.get('json').get('regions', username).then((result) => {
+        return result.region
+      })
     }
-    if (!ign) return msg.channel.send('Are you sure you did the save command first? **$save IGN region**')
-    if (!amount) {
-      num = 0
+    if (!username) {
+      name = await vg.useIGN(this.client, msg).then((data) => {
+        return data
+      })
+      if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `!vgverify`')
+      ign = await crypto.decrypt(name.ign)
+      region = await crypto.decrypt(name.region)
+    } else {
+      ign = username
+    }
+    let allModes = []
+    if (mode) {
+      for (let i = 0; i < mode.length; i++) {
+        allModes.push(vg.reverseGameModes(mode[i]))
+      }
     }
     const now = new Date()
     const minus28Days = new Date((new Date() * 1) - 2419200000)
@@ -30,224 +68,54 @@ exports.run = async (client, msg, [ign, server, amount]) => {
       },
       sort: '-createdAt', // -createdAt for reverse
       filter: {
+        gameMode: allModes,
         'createdAt-start': minus28Days.toISOString(), // ISO Date
         'createdAt-end': now.toISOString(), // ISO Date
         playerNames: [`${ign}`]
       }
     }
     const vainglory = new Vainglory(config.vgKey, options)
-    await vainglory.region(region).matches.collection(options).then((matches) => {
+    await vainglory.region(region).matches.collection(options).then(async (matches) => {
       if (matches.errors) {
-        msg.reply('Please check the IGN and Region and try again. An error report was sent to the developers.')
-        return console.log(matches)
+        console.log(matches)
+        return msg.reply('Please check the IGN and Region and try again. The API returned an error saying incorrect IGN or region.')
       }
-      /* Create a object with all the pieces of data that matches return that is useful 
-      to report to be able to easily call it. Eventually this will be in mongo */
-      const data = {
-        region: matches.match[num].data.attributes.shardId.toUpperCase(),
-        gameMode: client.funcs.vgGameModes(matches.match[num].data.attributes.gameMode),
-        duration: matches.match[num].data.attributes.duration,
-        time: matches.match[num].data.attributes.createdAt,
-        teamSide0: matches.match[num].matchRoster[0].data.attributes.stats.side,
-        aces0: matches.match[num].matchRoster[0].data.attributes.stats.acesEarned,
-        tGold0: parseInt(matches.match[num].matchRoster[0].data.attributes.stats.gold, 10).toLocaleString(),
-        tKills0: matches.match[num].matchRoster[0].data.attributes.stats.heroKills,
-        tKrakenCapt0: matches.match[num].matchRoster[0].data.attributes.stats.krakenCaptures,
-        tTurretKills0: matches.match[num].matchRoster[0].data.attributes.stats.turretKills,
-        tTurretLeft0: matches.match[num].matchRoster[0].data.attributes.stats.turretsRemaining,
-        teamSide1: matches.match[num].matchRoster[1].data.attributes.stats.side,
-        aces1: matches.match[num].matchRoster[1].data.attributes.stats.acesEarned,
-        tGold1: parseInt(matches.match[num].matchRoster[1].data.attributes.stats.gold, 10).toLocaleString(),
-        tKills1: matches.match[num].matchRoster[1].data.attributes.stats.heroKills,
-        tKrakenCapt1: matches.match[num].matchRoster[1].data.attributes.stats.krakenCaptures,
-        tTurretKills1: matches.match[num].matchRoster[1].data.attributes.stats.turretKills,
-        tTurretLeft1: matches.match[num].matchRoster[1].data.attributes.stats.turretsRemaining,
-        p1Ign: matches.match[num].matchRoster[0].rosterParticipants[0].participantPlayer.data.attributes.name,
-        p1Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.actor),
-        p1Assists: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.assists,
-        p1Miners: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.crystalMineCaptures,
-        p1Deaths: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.deaths,
-        p1CS: Math.floor(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.farm),
-        p1AFK: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.firstAfkTime,
-        p1Gold: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.gold, 10)).toLocaleString(),
-        p1GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.gold, 10)),
-        p1GMiners: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.goldMineCaptures,
-        p1Items: client.funcs.vgItems(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.items),
-        p1JungleKills: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.jungleKills,
-        p1KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.karmaLevel),
-        p1Kills: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.kills,
-        p1KrakenCaptures: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.krakenCaptures,
-        p1Level: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.level,
-        p1MinionKills: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.minionKills,
-        p1nonJungleMinionKills: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.assists,
-        p1VST: client.funcs.vgVST(matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.skillTier),
-        p1Skin: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.skinKey,
-        p1TurretKills: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.turretCaptures,
-        p1WentAFK: matches.match[num].matchRoster[0].rosterParticipants[0].data.attributes.stats.wentAfk,
-        p2Ign: matches.match[num].matchRoster[0].rosterParticipants[1].participantPlayer.data.attributes.name,
-        p2Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.actor),
-        p2Assists: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.assists,
-        p2Miners: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.crystalMineCaptures,
-        p2Deaths: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.deaths,
-        p2CS: Math.floor(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.farm),
-        p2AFK: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.firstAfkTime,
-        p2Gold: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.gold, 10)).toLocaleString(),
-        p2GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.gold, 10)),
-        p2GMiners: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.goldMineCaptures,
-        p2Items: client.funcs.vgItems(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.items),
-        p2JungleKills: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.jungleKills,
-        p2KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.karmaLevel),
-        p2Kills: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.kills,
-        p2KrakenCaptures: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.krakenCaptures,
-        p2Level: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.level,
-        p2MinionKills: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.minionKills,
-        p2nonJungleMinionKills: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.assists,
-        p2VST: client.funcs.vgVST(matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.skillTier),
-        p2Skin: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.skinKey,
-        p2TurretKills: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.turretCaptures,
-        p2WentAFK: matches.match[num].matchRoster[0].rosterParticipants[1].data.attributes.stats.wentAfk,
-        p3Ign: matches.match[num].matchRoster[0].rosterParticipants[2].participantPlayer.data.attributes.name,
-        p3Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.actor),
-        p3Assists: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.assists,
-        p3Miners: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.crystalMineCaptures,
-        p3Deaths: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.deaths,
-        p3CS: Math.floor(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.farm),
-        p3AFK: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.firstAfkTime,
-        p3Gold: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.gold, 10)).toLocaleString(),
-        p3GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.gold, 10)),
-        p3GMiners: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.goldMineCaptures,
-        p3Items: client.funcs.vgItems(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.items),
-        p3JungleKills: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.jungleKills,
-        p3KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.karmaLevel),
-        p3Kills: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.kills,
-        p3KrakenCaptures: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.krakenCaptures,
-        p3Level: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.level,
-        p3MinionKills: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.minionKills,
-        p3nonJungleMinionKills: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.assists,
-        p3VST: client.funcs.vgVST(matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.skillTier),
-        p3Skin: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.skinKey,
-        p3TurretKills: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.turretCaptures,
-        p3WentAFK: matches.match[num].matchRoster[0].rosterParticipants[2].data.attributes.stats.wentAfk,
-        p4Ign: matches.match[num].matchRoster[1].rosterParticipants[0].participantPlayer.data.attributes.name,
-        p4Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.actor),
-        p4Assists: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.assists,
-        p4Miners: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.crystalMineCaptures,
-        p4Deaths: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.deaths,
-        p4CS: Math.floor(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.farm),
-        p4AFK: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.firstAfkTime,
-        p4Gold: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.gold, 10)).toLocaleString(),
-        p4GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.gold, 10)),
-        p4GMiners: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.goldMineCaptures,
-        p4Items: client.funcs.vgItems(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.items),
-        p4JungleKills: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.jungleKills,
-        p4KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.karmaLevel),
-        p4Kills: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.kills,
-        p4KrakenCaptures: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.krakenCaptures,
-        p4Level: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.level,
-        p4MinionKills: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.minionKills,
-        p4nonJungleMinionKills: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.assists,
-        p4VST: client.funcs.vgVST(matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.skillTier),
-        p4Skin: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.skinKey,
-        p4TurretKills: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.turretCaptures,
-        p4WentAFK: matches.match[num].matchRoster[1].rosterParticipants[0].data.attributes.stats.wentAfk,
-        p5Ign: matches.match[num].matchRoster[1].rosterParticipants[1].participantPlayer.data.attributes.name,
-        p5Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.actor),
-        p5Assists: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.assists,
-        p5Miners: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.crystalMineCaptures,
-        p5Deaths: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.deaths,
-        p5CS: Math.floor(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.farm),
-        p5AFK: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.firstAfkTime,
-        p5Gold: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.gold, 10)).toLocaleString(),
-        p5GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.gold, 10)),
-        p5GMiners: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.goldMineCaptures,
-        p5Items: client.funcs.vgItems(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.items),
-        p5JungleKills: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.jungleKills,
-        p5KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.karmaLevel),
-        p5Kills: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.kills,
-        p5KrakenCaptures: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.krakenCaptures,
-        p5Level: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.level,
-        p5MinionKills: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.minionKills,
-        p5nonJungleMinionKills: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.assists,
-        p5VST: client.funcs.vgVST(matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.skillTier),
-        p5Skin: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.skinKey,
-        p5TurretKills: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.turretCaptures,
-        p5WentAFK: matches.match[num].matchRoster[1].rosterParticipants[1].data.attributes.stats.wentAfk,
-        p6Ign: matches.match[num].matchRoster[1].rosterParticipants[2].participantPlayer.data.attributes.name,
-        p6Hero: client.funcs.vgHeroes(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.actor),
-        p6Assists: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.assists,
-        p6Miners: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.crystalMineCaptures,
-        p6Deaths: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.deaths,
-        p6CS: Math.floor(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.farm),
-        p6AFK: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.firstAfkTime,
-        p6Gold: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.gold, 10)).toLocaleString(),
-        p6GoldMin: Math.floor(parseInt(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.gold, 10)),
-        p6GMiners: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.goldMineCaptures,
-        p6Items: client.funcs.vgItems(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.items),
-        p6JungleKills: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.jungleKills,
-        p6KarmaLevel: client.funcs.vgKarma(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.karmaLevel),
-        p6Kills: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.kills,
-        p6KrakenCaptures: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.krakenCaptures,
-        p6Level: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.level,
-        p6MinionKills: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.minionKills,
-        p6nonJungleMinionKills: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.assists,
-        p6VST: client.funcs.vgVST(matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.skillTier),
-        p6Skin: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.skinKey,
-        p6TurretKills: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.turretCaptures,
-        p6WentAFK: matches.match[num].matchRoster[1].rosterParticipants[2].data.attributes.stats.wentAfk
-      }
-      let team = ''
       let winLose = ''
-      if (ign === data.p1Ign || ign === data.p2Ign || ign === data.p3Ign) {
-        team = 'blue'
-        if (matches.match[num].matchRoster[0].data.attributes.won === 'true') {          
-          winLose = 'Victory'
-        } else {
-          winLose = 'Defeat'
+      let players = 6
+      for (let i = 0; i < matches.data.length; i++) {
+        let data = matchData.getData(matches, i)
+        let team = data.side.b
+        for (let j = 1; j < players + 1; j++) {
+          let count = `p${j}`
+          const exists = await this.client.providers.get('json').has('regions', data.igns[count])
+          if (!exists) {
+            console.log(data.igns[count])
+            await this.client.providers.get('json').insert('regions', data.igns[count], { region })
+          }
         }
-      } else {
-        team = 'red'
-        if (matches.match[num].matchRoster[1].data.attributes.won === 'true') {
-          winLose = 'Victory'
-        } else {
-          winLose = 'Defeat'
+        switch (ign) {
+          case data.igns.p1:
+          case data.igns.p2:
+          case data.igns.p3:
+            team = data.side.a
+            winLose = data.side.aWinLoss
+            break
+          default:
+            winLose = data.side.bWinLoss
         }
+        await this.album.addPage(e => e
+          .setAuthor(`${ign} | ${data.region} | ${data.gameMode} | ${winLose === 'true' ? 'VICTORY' : 'DEFEAT'}`, this.client.user.displayAvatarURL())
+          .setColor(team === data.side.a ? '#00C2EC' : '#EE7200')
+          .setDescription(`**Duration:** ${Math.floor(data.duration / 60)}:${data.duration % 60} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces0}    Gold: ${data.tGold0}    Kills: ${data.tKills0}    Krakens: ${data.tKrakenCapt0}    Turret Kills/Left: ${data.tTurretKills0}/${data.tTurretLeft0}
+          **Red  Team:** Aces: ${data.aces1}    Gold: ${data.tGold1}    Kills: ${data.tKills1}     Krakens: ${data.tKrakenCapt1}    Turret Kills/Left: ${data.tTurretKills1}/${data.tTurretLeft1}`)
+          .addField(`${data.names.p1}`, `${data.heroes.p1}${data.vst.p1}${data.items.p1}\n${matchData.matches(data.kills.p1, data.deaths.p1, data.assists.p1, data.cs.p1, data.csMin.p1, data.jungle.p1, data.gold.p1, data.goldMin.p1)}`, true)
+          .addField(`${data.names.p2}`, `${data.heroes.p2}${data.vst.p2}${data.items.p2}\n${matchData.matches(data.kills.p2, data.deaths.p2, data.assists.p2, data.cs.p2, data.csMin.p2, data.jungle.p2, data.gold.p2, data.goldMin.p2)}`, true)
+          .addField(`${data.names.p3}`, `${data.heroes.p3}${data.vst.p3}${data.items.p3}\n${matchData.matches(data.kills.p3, data.deaths.p3, data.assists.p3, data.cs.p3, data.csMin.p3, data.jungle.p3, data.gold.p3, data.goldMin.p3)}\n\n**Red Team:**\n`)
+          .addField(`${data.names.p4}`, `${data.heroes.p4}${data.vst.p4}${data.items.p4}\n${matchData.matches(data.kills.p4, data.deaths.p4, data.assists.p4, data.cs.p4, data.csMin.p4, data.jungle.p4, data.gold.p4, data.goldMin.p4)}`)
+          .addField(`${data.names.p5}`, `${data.heroes.p5}${data.vst.p5}${data.items.p5}\n${matchData.matches(data.kills.p5, data.deaths.p5, data.assists.p5, data.cs.p5, data.csMin.p5, data.jungle.p5, data.gold.p5, data.goldMin.p5)}`)
+          .addField(`${data.names.p6}`, `${data.heroes.p6}${data.vst.p6}${data.items.p6}\n${matchData.matches(data.kills.p6, data.deaths.p6, data.assists.p6, data.cs.p6, data.csMin.p6, data.jungle.p6, data.gold.p6, data.goldMin.p6)}`))
       }
-      const embed = new client.methods.Embed()
-        .setTitle('Click Here To See More On VGPRO.GG')
-        .setAuthor(`${ign} | ${data.region} | ${data.gameMode} | ${winLose === 'Victory' ? 'Victory' : 'Defeat'}`, client.user.avatarURL())
-        .setColor(team === 'blue' ? '#00C2EC' : '#EE7200')
-        .setDescription(`**Duration:** ${Math.floor(data.duration / 60)}:${data.duration % 60} \n**Time:** ${moment(matches.match[num].data.attributes.createdAt)}}\n**Blue Team:** Aces: ${data.aces0}    Gold: ${data.tGold0}    Kills: ${data.tKills0}    Krakens: ${data.tKrakenCapt0}    Turret Kills/Left: ${data.tTurretKills0}/${data.tTurretLeft0}
-**Red  Team:** Aces: ${data.aces1}    Gold: ${data.tGold1}    Kills: ${data.tKills1}     Krakens: ${data.tKrakenCapt1}    Turret Kills/Left: ${data.tTurretKills1}/${data.tTurretLeft1}`)
-        .setFooter('Discord Don\'t Support Links On Mobiles, <3 MadGlory')
-        .setURL(`https://vgpro.gg/players/${region}/${ign}`)
-        .addField('Blue Team', `${client.funcs.vgMatches(data, ign, 1, region)}\n\n${client.funcs.vgMatches(data, ign, 2, region)}\n\n${client.funcs.vgMatches(data, ign, 3, region)}`)
-        .addField('Red Team', `${client.funcs.vgMatches(data, ign, 4, region)}\n\n${client.funcs.vgMatches(data, ign, 5, region)}\n\n${client.funcs.vgMatches(data, ign, 6, region)}`)
-      msg.channel.send({ embed })
-    }).catch((errors) => {
-      console.log(errors)
+      this.album.run(msg)
     })
-    const lotto = 'vg'
-    return lotto
-  } catch (e) {
-    msg.reply('Please make sure you have done **$save IGN region** because the problem is coming from IGN and Region. If it still doesn\'t work please contact me by using **$contact bug** `your message here`.')
-    client.channels.get('358797526842867714').send(`There was an error trying to get player matches: ${e} in ${msg.channel} on ${msg.guild} by ${msg.author}`)
   }
-}
-
-exports.conf = {
-  enabled: true,
-  runIn: ['text', 'dm', 'group'],
-  aliases: ['vgm', 'm'],
-  permLevel: 0,
-  botPerms: [],
-  requiredFuncs: ['capitalize', 'vgGameModes', 'vgHeroes', 'vgVST', 'vgKarma', 'vgItems', 'vgMatches', 'useIGN'],
-  cooldown: 0
-}
-
-exports.help = {
-  name: 'matches',
-  description: 'Get your VG matches here!',
-  usage: '[ign:str{1,16}] [na|sa|eu|sea|sg|ea|cn|tna|teu|tsa|tsea|tsg|tea|tcn] [amount:int{1,50}]',
-  usageDelim: ' ',
-  extendedHelp: 'vgm IGN Region'
 }
