@@ -1,42 +1,50 @@
-exports.run = async (client, msg, [ign, server]) => {
-  let region = server
-  const check = await client.providers.get('mongodb').get('savevg', msg.author.id)
-  if (client.guilds.get('67200685216641024').members.get(msg.author.id)) {
-    if (server === 'sg') {
-      region = 'sea'
-    }
-    if (check) {
-      await client.providers.get('mongodb').update('savevg', msg.author.id, { changed: true })
-    } else {
-      await client.providers.get('mongodb').insert('savevg', msg.author.id, { changed: true })
-    }
-  }
-  if (server === 'sea') {
-    region = 'sg'
-  }
-  if (check) {
-    await client.providers.get('mongodb').update('savevg', msg.author.id, { ign: ign, region: region })
-    return msg.channel.send('Your IGN and Region have now been updated. There is a cooler feature coming soon. Stay tuned with this!')
-  } else {
-    await client.providers.get('mongodb').insert('savevg', msg.author.id, { ign: ign, region: region })
-    return msg.channel.send('Your IGN and Region have now been saved. There is a cooler feature coming soon. Stay tuned with this!')
-  }
-}
+const { Command } = require('klasa')
+const Vainglory = require('vainglory')
+const config = require('../../config/config.json')
+const crypto = require('../../functions/crypto/crypto')
 
-exports.conf = {
-  enabled: true,
-  runIn: ['text', 'dm', 'group'],
-  aliases: ['save'],
-  permLevel: 0,
-  botPerms: [],
-  requiredFuncs: [],
-  cooldown: 0
-}
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'savevg',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: ['save'],
+      permLevel: 0,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'Save your IGN and Region in the database!',
+      quotedStringSupport: true,
+      usage: '[username:str] [server:str]',
+      usageDelim: undefined,
+      extendedHelp: 'No extended help available.'
+    })
+  }
 
-exports.help = {
-  name: 'savevg',
-  description: 'Save your IGN.!',
-  usage: '<ign:str{1,16}> <na|sa|eu|sea|sg|ea|cn>',
-  usageDelim: ' ',
-  extendedHelp: 'save IGN Region'
+  async run (msg, [username, server]) {
+    if (!username || !server) return msg.reply('You didn\'t provide an IGN or a region. Please try again.')
+    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'cn', 'ea']
+    let region = server.toLowerCase()
+    if (!allowedRegions.includes(region)) return msg.reply(`${server} is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
+    let ign = username
+    const vainglory = new Vainglory(config.vgKey)
+    /* Must take an array */
+    const playerNames = [ign]
+    await vainglory.players.getByName(playerNames).then(async (players) => {
+      if (players.errors) {
+        console.log(players)
+        return msg.reply('Sorry that account do not exist in the API. Please try again.')
+      }
+      let nickname = `${ign} - ${region.toUpperCase()}`
+      if (msg.guild.id === config.ezl.id) msg.member.setNickname(nickname)
+      ign = crypto.encrypt(ign)
+      region = await crypto.encrypt(region)
+      const keys = ['ign', 'region']
+      for (let i = 0; i < keys.length; i++) {
+        this.client.settings.users.update(msg.author, { [keys[i]]: keys[i] === 'ign' ? ign : region })
+      }
+      return msg.reply(`Your IGN and Region are now saved into the database and now the bot will know who you are on all the ${this.client.guilds.size} servers.`)
+    })
+  }
 }

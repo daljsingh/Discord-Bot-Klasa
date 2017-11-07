@@ -1,54 +1,40 @@
-exports.run = async (client, msg, [member, ign, server]) => {
-  if (msg.guild.id !== '67200685216641024') return msg.reply('Sorry, this command is only meant for the Vainglory Server. Come join at <http://superevil.co/discord>')
-  let region = server
-  if (server === 'sg') {
-    region = 'sea'
+const { Command } = require('klasa')
+
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'change',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: [],
+      permLevel: 0,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'Change a users ign and region.!',
+      quotedStringSupport: true,
+      usage: '<member:member> <ign:str{1,16}> <na|sa|eu|sea|sg|ea|cn>',
+      usageDelim: ' ',
+      extendedHelp: 'No extended help available.'
+    })
   }
-  const allowedRoles = ['God', 'Super Evil Megacorp', 'Admin', 'RCM Role ( invisible )', 'Moderator']
-  const roleIds = ['363135242485366784', '363135288303943680', '363135341710016512', '363135325511352320', '363135360387252225', '363135383095214083']
-  const allRoles = {
-    na: '363135242485366784',
-    eu: '363135288303943680',
-    sea: '363135341710016512',
-    sa: '363135325511352320',
-    ea: '363135360387252225',
-    cn: '363135383095214083'
-  }
-  for (let i = 0; i < allowedRoles.length; i++) {
-    if (msg.member.roles.find('name', allowedRoles[i])) {
-      console.log('inside if')
-      member.setNickname(`${ign} - ${server.toUpperCase()}`)
-      await member.removeRoles(roleIds)
-      await member.addRole(allRoles[server])
-      if (server === 'sea') {
-        region = 'sg'
-      }
-      const check = await client.providers.get('mongodb').get('savevg', member.id)
-      if (check) {
-        await client.providers.get('mongodb').update('savevg', member.id, { ign: ign, region: region })
-        return msg.channel.send('That users IGN and region have now been updated.')
-      } else {
-        await client.providers.get('mongodb').insert('savevg', member.id, { ign: ign, region: region })
-        return msg.channel.send('That users IGN and region have now been updated.')
-      }
+
+  async run (msg, [member, ign, server]) {
+    if (msg.guild.id !== '67200685216641024') return msg.reply('Sorry, this command is only meant for the Vainglory Server. Come join at <http://superevil.co/discord>')
+    let region = server
+    if (server === 'sg') region = 'sea'
+    const keys = ['ign', 'region']
+    for (let i = 0; i < keys.length; i++) {
+      this.client.settings.users.update(msg.author, { [keys[i]]: keys[i] === 'ign' ? ign : region })
     }
+    return msg.reply(`<@${member.id}> Your account is now saved into the database and now the bot will know who you are on all the ${this.client.guilds.size} servers.`)
+  }
+
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
   }
 }
 
-exports.conf = {
-  enabled: true,
-  runIn: ['text'],
-  aliases: [],
-  permLevel: 2,
-  botPerms: [],
-  requiredFuncs: [],
-  cooldown: 0
-}
-
-exports.help = {
-  name: 'change',
-  description: 'Change a users ign and region.!',
-  usage: '<member:member> <ign:str{1,16}> <na|sa|eu|sea|sg|ea|cn>',
-  usageDelim: ' ',
-  extendedHelp: 'save IGN Region'
+exports.run = async (client, msg, [member, ign, server]) => {
+  
 }

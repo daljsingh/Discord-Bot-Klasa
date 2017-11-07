@@ -3,24 +3,24 @@ const { Command } = require('klasa')
 module.exports = class extends Command {
   constructor (...args) {
     super(...args, {
-      name: 'coinflip',
+      name: 'delete',
       enabled: true,
-      runIn: ['text', 'dm', 'group'],
+      runIn: ['text'],
       cooldown: 0,
-      aliases: ['coin'],
+      aliases: ['d'],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['MANAGE_MESSAGES'],
       requiredSettings: [],
-      description: 'Flips a (pseudo) fair coin.',
+      description: 'This will remove X amount of messages sent in a channel.',
       quotedStringSupport: false,
-      usage: '',
-      usageDelim: undefined,
+      usage: '<amount:int{2,100}>',
+      usageDelim: ' ',
       extendedHelp: 'No extended help available.'
     })
   }
 
-  async run (msg, [...params]) {
-    return msg.reply(`You flipped ${Math.random() > 0.5 ? 'Heads' : 'Tails'}.`)
+  async run (msg, [amount]) {
+    return msg.channel.bulkDelete(amount, true)
   }
 
   async init () {

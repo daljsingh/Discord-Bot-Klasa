@@ -1,23 +1,30 @@
-exports.run = async (client, msg, [...choices]) => {
-  const validChoices = choices.filter(x => x);
-  return msg.reply(validChoices.length === 1 ? 'You only gave me one choice, dummy.' : `I think you should go with "${choices[Math.floor(Math.random() * choices.length)]}"`);
-};
+const { Command } = require('klasa')
 
-exports.conf = {
-  enabled: true,
-  selfbot: false,
-  runIn: ['text', 'dm', 'group'],
-  aliases: ['choose', 'decide'],
-  permLevel: 0,
-  botPerms: [],
-  requiredFuncs: [],
-  requiredModules: [],
-};
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'yourCommandName',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: ['choose', 'decide'],
+      permLevel: 0,
+      botPerms: [],
+      requiredSettings: [],
+      description: 'Makes a decision for you given some choices.',
+      quotedStringSupport: true,
+      usage: '<choices:str> [...]',
+      usageDelim: ' ',
+      extendedHelp: 'If you need a space inside choice use quotes: `$choice "Skillz 4 Killz" Skillz4Killz`'
+    })
+  }
 
-exports.help = {
-  name: 'choice',
-  description: 'Makes a decision for you given some choices.',
-  usage: '<choices:str> [...]',
-  usageDelim: '|',
-  type: 'commands',
-};
+  async run (msg, [...choices]) {
+    const validChoices = choices.filter(x => x)
+    return msg.reply(validChoices.length === 1 ? 'You only gave me one choice, dummy.' : `I think you should go with "${choices[Math.floor(Math.random() * choices.length)]}"`)
+  }
+
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
+  }
+}
