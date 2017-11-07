@@ -1,48 +1,35 @@
-exports.run = async (client, msg, [user, name]) => {
-  try {
-    // checks the nickname size for the discord requirement if so replies and then exits
-    if (name.length > 32 || name.length === 0) {
-      msg.reply('Sorry the nickname was too long or too short.');
-      return;
-    }
-    // set the nickname
-    msg.mentions.members.first().setNickname(`${name}`);
-    // send a message in regards to what changed in an embed.
-    msg.reply('', { embed: {
-      color: 3447003,
-      author: {
-        name: client.user.username,
-        icon_url: client.user.avatarURL,
-      },
-      title: 'Nickname has been changed!',
-      url: 'http://ezlgg.com',
-      description: `Nickname has been changed to ${name} for ${user} 😃`,
-      timestamp: new Date(),
-      footer: {
-        icon_url: client.user.avatarURL,
-        text: '© Esports Zodiac League LLC (EZL)',
-      },
-    } });
-  } catch (e) {
-    msg.reply('Some error occured with un-muting the member. A report has been sent to the developers.');
-    client.channels.get('341020497309597696').send(`There was an error trying to un-mute: ${e} in ${msg.channel} on ${msg.guild} by ${msg.author}`);
+const { Command } = require('klasa')
+
+module.exports = class extends Command {
+  constructor (...args) {
+    super(...args, {
+      name: 'nickname',
+      enabled: true,
+      runIn: ['text', 'dm', 'group'],
+      cooldown: 0,
+      aliases: ['nick'],
+      permLevel: 7,
+      botPerms: ['CHANGE_NICKNAME', 'MANAGE_NICKNAMES'],
+      requiredSettings: [],
+      description: 'Change nickname of a user',
+      quotedStringSupport: false,
+      usage: '<member:member> <name:str> [...]',
+      usageDelim: ' ',
+      extendedHelp: 'No extended help available.'
+    })
   }
-};
 
-exports.conf = {
-  enabled: true,
-  runIn: ['text'],
-  aliases: ['nick'],
-  permLevel: 2,
-  botPerms: ['CHANGE_NICKNAME', 'MANAGE_NICKNAMES'],
-  requiredFuncs: [],
-  cooldown: 0,
-};
+  async run (msg, [member, ...name]) {
+    const fullNick = name.join(' ')
+    // checks the nickname size for the discord requirement if so replies and then exits
+    if (fullNick.length > 32 || fullNick.length === 0) return msg.reply('Sorry the nickname was too long or too short.')
+    // set the nickname
+    member.setNickname(fullNick)
+    // send a message in regards to what changed in an embed.
+    return msg.reply(`Nickname has been changed to ${fullNick} for ${member} 😃`)
+  }
 
-exports.help = {
-  name: 'nickname',
-  description: 'Change nickname of a user',
-  usage: '<user:user> <name:str{1,32}>',
-  usageDelim: ' ',
-  extendedHelp: '1) User will require a role called Moderators\n2) Bot will require a role higher than the user to be able to change nickname.\n3) Up to a maximum of 3 words with spaces and max characters must be 32 or less.',
-};
+  async init () {
+    // You can optionally define this method which will be run when the bot starts (after login, so discord data is available via this.client)
+  }
+}
