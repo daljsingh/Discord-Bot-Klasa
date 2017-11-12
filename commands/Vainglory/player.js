@@ -64,14 +64,14 @@ module.exports = class extends Command {
         .setTitle(`Click Here For More Details At VGPRO.GG`)
         .setAuthor(`${ign} | Level: ${stats.level}`, this.client.user.avatarURL())
         .setColor(0x00AE86)
-        .setThumbnail(this.client.funcs.vgVST(stats.skillTier, true))
+        .setThumbnail(vg.VST(stats.skillTier, true))
         .setDescription('Vg Profile Data')
         .setFooter('Does Casual look weird, tell me with $contact. Need proof for SEMC.', this.client.user.avatarURL())
         .setURL(`https://vgpro.gg/players/${region}/${ign}`)
         .addField('**__Lifetime Stats__**',
           `**Win Rate:** ${Math.round((stats.wins / total) * 100)}% | **Wins:** ${stats.wins} | **Lost:** ${total - stats.wins} | **Played:** ${total} | 
 **Rank:** ${stats.played_ranked} | **Blitz:** ${stats.played_blitz} | **BR:** ${stats.played_aral} | **Casual:** ${stats.played_casual}
-**Karma**: ${this.client.funcs.vgKarma(stats.karmaLevel)}`)
+**Karma**: ${vg.karma(stats.karmaLevel)}`)
         .addField('**__Current Streaks__** (Please SEMC Fix This Soon!)', `**Wins:** ${stats.winStreak} | **Loss:** ${stats.lossStreak}`)
         .addField('**__End Of Season VST (Not Trophies)__**', `**Season 4:** ${Math.round(stats.elo_earned_season_4)}
 **Season 5:** ${Math.round(stats.elo_earned_season_5)}

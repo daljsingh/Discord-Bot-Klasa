@@ -23,25 +23,26 @@ client.permissionLevels = new PermissionLevels()
     return false
   })
   // Members that are admins on their server
-  .addLevel(8, false, (client, msg) => msg.guild && msg.guild.settings.admins.includes(msg.author.id))
+  // .addLevel(8, false, (client, msg) => msg.guild && msg.guild.settings.admins.includes(msg.author.id))
   // Members that are the guild owners
   .addLevel(9, false, (client, msg) => msg.guild && msg.member === msg.guild.owner)
   .addLevel(10, false, (client, msg) => msg.author === client.owner)
   // Allows the bot owner to use Bot Owner only commands
 
-async function validate (resolver, user) {
-  const result = await resolver.user(user)
-  if (!result) throw 'The parameter <User> expects either a User ID or a User Object.'
-  return result
-};
+// async function validate (resolver, user) {
+//   const result = await resolver.user(user)
+//   if (!result) throw 'The parameter <User> expects either a User ID or a User Object.'
+//   return result
+// };
 
-const schema = {
-  quote: {
-    type: 'String',
-    default: null,
-    array: false
-  }
-}
+// const schema = {
+//   quote: {
+//     type: 'String',
+//     default: null,
+//     array: false
+//   }
+// }
 
-client.settings.add('users', validate, schema)
+// client.settings.add('users', validate, schema)
+
 client.login(config.botToken)

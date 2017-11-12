@@ -93,8 +93,8 @@ module.exports = class extends Command {
         await this.album.addPage(e => e
           .setAuthor(`${ign} | ${data.region} | ${data.gameMode} | ${winLose === 'true' ? 'VICTORY' : 'DEFEAT'}`, this.client.user.displayAvatarURL())
           .setColor(team === data.side.a ? '#00C2EC' : '#EE7200')
-          .setDescription(`**Duration:** ${Math.floor(data.duration / 60)}:${data.duration % 60} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces0}    Gold: ${data.tGold0}    Kills: ${data.tKills0}    Krakens: ${data.tKrakenCapt0}    Turret Kills/Left: ${data.tTurretKills0}/${data.tTurretLeft0}
-          **Red  Team:** Aces: ${data.aces1}    Gold: ${data.tGold1}    Kills: ${data.tKills1}     Krakens: ${data.tKrakenCapt1}    Turret Kills/Left: ${data.tTurretKills1}/${data.tTurretLeft1}`)
+          .setDescription(`**Duration:** ${Math.floor(data.duration / 60)}:${data.duration % 60} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces.a}    Gold: ${data.tGold.a}    Kills: ${data.tKills.aHeroes}    Krakens: ${data.tKills.aKrakens}    Turrets: ${data.tKills.aTurrets}
+**Red  Team:** Aces: ${data.aces.b}    Gold: ${data.tGold.b}    Kills: ${data.tKills.bHeroes}     Krakens: ${data.tKills.bKrakens}    Turrets: ${data.tKills.bTurrets}`)
           .addField(`${data.names.p1}`, `${data.heroes.p1}${data.vst.p1}${data.items.p1}\n${matchData.matches(data.kills.p1, data.deaths.p1, data.assists.p1, data.cs.p1, data.csMin.p1, data.jungle.p1, data.gold.p1, data.goldMin.p1)}`, true)
           .addField(`${data.names.p2}`, `${data.heroes.p2}${data.vst.p2}${data.items.p2}\n${matchData.matches(data.kills.p2, data.deaths.p2, data.assists.p2, data.cs.p2, data.csMin.p2, data.jungle.p2, data.gold.p2, data.goldMin.p2)}`, true)
           .addField(`${data.names.p3}`, `${data.heroes.p3}${data.vst.p3}${data.items.p3}\n${matchData.matches(data.kills.p3, data.deaths.p3, data.assists.p3, data.cs.p3, data.csMin.p3, data.jungle.p3, data.gold.p3, data.goldMin.p3)}\n\n**Red Team:**\n`)
