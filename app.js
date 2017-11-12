@@ -7,6 +7,7 @@ const client = new Client({
   },
   prefix: '$',
   cmdEditing: true,
+  cmdLogging: true,
   typing: true,
   readyMessage: (client) => `${client.user.tag}, Ready to serve ${client.guilds.size} guilds and ${client.users.size} users`
 })
