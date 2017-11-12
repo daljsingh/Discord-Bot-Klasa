@@ -47,8 +47,23 @@ module.exports = class extends Command {
     const gameModes = {}, heroes = {}
     let sortedGames = [], sortedHeroes = []
     let wins = 0, afk = 0, hSkillTier = 0, krakens = 0, miners = 0, durations = 0, laneM = 0, jungleM = 0, farms = 0, golds = 0
-    const vaingloryM = new Vainglory(config.vgKey)
-    const matches = await vaingloryM.region(region).matches.collection()
+    const now = new Date()
+    const minus28Days = new Date((new Date() * 1) - 2419200000)
+    const options = {
+      page: {
+        offset: 0,
+        limit: 50
+      },
+      sort: '-createdAt', // -createdAt for reverse
+      filter: {
+        // gameMode: allModes,
+        'createdAt-start': minus28Days.toISOString(), // ISO Date
+        'createdAt-end': now.toISOString(), // ISO Date
+        playerNames: [`${ign}`]
+      }
+    }
+    const vainglory = new Vainglory(config.vgKey, options)
+    const matches = await vainglory.region(region).matches.collection(options)
     if (matches.errors) {
       return msg.reply('This account does not exist in the API or it had a match with less than 6 players. Please try again or contact the developers for more help.')
     }
