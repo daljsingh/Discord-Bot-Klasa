@@ -1,0 +1,11 @@
+{
+    "botToken": "Your Bot Token Here",
+    "lottery": {
+        "onOff": true,
+        "chance": 1000,
+        "amount": 1000,
+        "cooldown: 1000
+    }
+	"testers": [],
+    "vgKey": ""
+}
