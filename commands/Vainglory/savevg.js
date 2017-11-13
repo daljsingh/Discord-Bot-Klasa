@@ -31,7 +31,7 @@ module.exports = class extends Command {
     const vainglory = new Vainglory(config.vgKey)
     /* Must take an array */
     const playerNames = [ign]
-    await vainglory.players.getByName(playerNames).then(async (players) => {
+    await vainglory.region(region).players.getByName(playerNames).then(async (players) => {
       if (players.errors) {
         console.log(players)
         return msg.reply('Sorry that account do not exist in the API. Please try again.')
@@ -40,10 +40,7 @@ module.exports = class extends Command {
       if (msg.guild.id === config.ezl.id) msg.member.setNickname(nickname)
       ign = await crypto.encrypt(ign)
       region = await crypto.encrypt(region)
-      const keys = ['ign', 'region']
-      for (let i = 0; i < keys.length; i++) {
-        this.client.settings.users.update(msg.author, { [keys[i]]: keys[i] === 'ign' ? ign : region }, msg.guild)
-      }
+      await this.client.settings.users.update(msg.author, { ign: ign, region: region }, msg.guild)
       return msg.reply(`Your IGN and Region are now saved into the database and now the bot will know who you are on all the ${this.client.guilds.size} servers.`)
     })
   }
