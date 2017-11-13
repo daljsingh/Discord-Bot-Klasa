@@ -8,7 +8,7 @@ module.exports = class extends Command {
       runIn: ['text'],
       cooldown: 0,
       aliases: ['d'],
-      permLevel: 0,
+      permLevel: 7,
       botPerms: ['MANAGE_MESSAGES'],
       requiredSettings: [],
       description: 'This will remove X amount of messages sent in a channel.',
