@@ -17,7 +17,7 @@ module.exports = class extends Command {
       description: 'Save your IGN and Region in the database!',
       quotedStringSupport: true,
       usage: '[username:str] [server:str]',
-      usageDelim: undefined,
+      usageDelim: ' ',
       extendedHelp: 'No extended help available.'
     })
   }
@@ -38,11 +38,11 @@ module.exports = class extends Command {
       }
       let nickname = `${ign} - ${region.toUpperCase()}`
       if (msg.guild.id === config.ezl.id) msg.member.setNickname(nickname)
-      ign = crypto.encrypt(ign)
+      ign = await crypto.encrypt(ign)
       region = await crypto.encrypt(region)
       const keys = ['ign', 'region']
       for (let i = 0; i < keys.length; i++) {
-        this.client.settings.users.update(msg.author, { [keys[i]]: keys[i] === 'ign' ? ign : region })
+        this.client.settings.users.update(msg.author, { [keys[i]]: keys[i] === 'ign' ? ign : region }, msg.guild)
       }
       return msg.reply(`Your IGN and Region are now saved into the database and now the bot will know who you are on all the ${this.client.guilds.size} servers.`)
     })

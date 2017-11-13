@@ -32,18 +32,16 @@ module.exports = class extends Command {
     }
     if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
     if (!username) {
-      name = await vg.useIGN(this.client, msg).then((data) => {
-        return data
-      })
-      if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `!vgverify`')
-      ign = await crypto.decrypt(name.ign)
+      name = await this.client.settings.users.get(msg.author.id)
+      if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
+      ign = await crypto.decrypt(name.ign).catch((e) => { return msg.reply('I recently got a huge update and the database that contains the names is still transferring over. In the meantime, you can do the $save command again. I am sorry for the inconvenience. For more info join me at https://discord.gg/VHVY7rb') })
       region = await crypto.decrypt(name.region)
     }
     if (username && !server) {
       ign = username
       region = await this.client.settings.users.get(msg.author.id).region
     }
-    if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **!vgverify IGN Region**')
+    if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **$save yourIgn yourRegion**')
     const gameModes = {}, heroes = {}
     let sortedGames = [], sortedHeroes = []
     let wins = 0, afk = 0, hSkillTier = 0, krakens = 0, miners = 0, durations = 0, laneM = 0, jungleM = 0, farms = 0, golds = 0

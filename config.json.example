@@ -1,5 +1,8 @@
 {
     "botToken": "Your Bot Token Here",
+    "ezl": {
+		"id": "233300409308020736"
+	},
     "lottery": {
         "onOff": true,
         "chance": 1000,
