@@ -43,6 +43,7 @@ When sending a report please send it as 1 detailed message so it is easier to tr
       case 'suggestions':
       case 'suggestion':
       case 'idea':
+      case 'ideas':
         embed.setDescription(`You can send all suggestions to #suggestions in the following format.
 
 Topic:
