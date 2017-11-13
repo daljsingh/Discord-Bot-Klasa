@@ -3,7 +3,7 @@ const { Command } = require('klasa')
 module.exports = class extends Command {
   constructor (...args) {
     super(...args, {
-      name: 'yourCommandName',
+      name: 'kick',
       enabled: true,
       runIn: ['text'],
       cooldown: 0,
@@ -14,7 +14,7 @@ module.exports = class extends Command {
       description: 'Kicks a user from the server',
       quotedStringSupport: false,
       usage: '<member:member> <reason:str> [...]',
-      usageDelim: undefined,
+      usageDelim: ' ',
       extendedHelp: 'No extended help available.'
     })
   }

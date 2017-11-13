@@ -39,6 +39,7 @@ module.exports = class extends Command {
     if (!username) {
       name = await this.client.settings.users.get(msg.author.id)
       if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
+      console.log(name.ign)
       ign = await crypto.decrypt(name.ign)
       region = await crypto.decrypt(name.region)
     }
