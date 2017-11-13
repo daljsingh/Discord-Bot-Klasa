@@ -13,13 +13,13 @@ module.exports = class extends Command {
       requiredSettings: [],
       description: '.schedule in the proper channels in the regional servers to schedule your match. EZL Command ONLY!',
       quotedStringSupport: false,
-      usage: '<time:str>',
+      usage: '<time:str> [...]',
       usageDelim: undefined,
       extendedHelp: 'No extended help available.'
     })
   }
 
-  async run (msg, [time]) {
+  async run (msg, [...time]) {
     const final = await time.join(' ')
     let region = ''
     switch (msg.channel.id) {

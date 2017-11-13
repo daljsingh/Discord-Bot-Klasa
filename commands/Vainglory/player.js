@@ -37,10 +37,8 @@ module.exports = class extends Command {
     let ign = ''
     let name
     if (!username) {
-      name = await vg.useIGN(this.client, msg).then((data) => {
-        return data
-      })
-      if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `!vgverify`')
+      name = await this.client.settings.users.get(msg.author.id)
+      if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
       ign = await crypto.decrypt(name.ign)
       region = await crypto.decrypt(name.region)
     }
@@ -49,7 +47,7 @@ module.exports = class extends Command {
       region = await this.client.settings.users.get(msg.author.id).region
     }
     if (username) ign = username
-    if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **!vgverify IGN Region**')
+    if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **$save yourIgn yourRegion**')
     const vainglory = new Vainglory(config.vgKey)
     /* Must take an array */
     const playerNames = []
