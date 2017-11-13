@@ -31,7 +31,7 @@ module.exports = class extends Command {
     const vainglory = new Vainglory(config.vgKey)
     /* Must take an array */
     const playerNames = [ign]
-    await vainglory.region(region).players.getByName(playerNames).then(async (players) => {
+    await vainglory.region(region !== 'sea' ? region : 'sg').players.getByName(playerNames).then(async (players) => {
       if (players.errors) {
         console.log(players)
         return msg.reply('Sorry that account do not exist in the API. Please try again.')
