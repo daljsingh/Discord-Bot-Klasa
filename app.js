@@ -16,13 +16,13 @@ client.permissionLevels = new PermissionLevels()
   // Everyone can use these commands
   .addLevel(0, false, () => true)
   // Members are testers that get access to commands to test
-  .addLevel(6, false, (client, msg) => config.testers.includes(msg.author.id))
+  //.addLevel(6, false, (client, msg) => config.testers.includes(msg.author.id))
   // Members that are mods on their server
-  .addLevel(7, false, (client, msg) => {
-    if (!msg.guild) return false
-    if (msg.member.roles.get(msg.guild.settings.modRole)) return true
-    return false
-  })
+  //.addLevel(7, false, (client, msg) => {
+  //  if (!msg.guild) return false
+  //  if (msg.member.roles.get(msg.guild.settings.modRole)) return true
+  //  return false
+  //})
   // Members that are admins on their server
   // .addLevel(8, false, (client, msg) => msg.guild && msg.guild.settings.admins.includes(msg.author.id))
   // Members that are the guild owners
