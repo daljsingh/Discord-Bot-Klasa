@@ -6,10 +6,19 @@ exports.getData = (matches, num) => {
   const match = matches.match[num]
   const players = 6
   const stats = [match.matchRoster[0].data.attributes.stats, match.matchRoster[1].data.attributes.stats]
+
+  const duration = match.data.attributes.duration
+  let durationMin = Math.floor(duration / 60)
+  let durationSec = duration % 6
+
+  if (durationMin < 10) durationMin = `0${durationMin.toString()}`
+  if (durationSec < 10) durationSec = `0${durationSec.toString()}`
+
   const data = {
     region: match.data.attributes.shardId.toUpperCase(),
     gameMode: vg.gameModes(match.data.attributes.gameMode),
-    duration: match.data.attributes.duration,
+    durationMin,
+    durationSec,
     time: match.data.attributes.createdAt,
     side: {
       a: stats[0].side,
