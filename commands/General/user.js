@@ -25,11 +25,11 @@ module.exports = class extends Command {
       .setAuthor(this.client.user.username, this.client.user.avatarURL())
       .setColor(0x00AE86)
       .setThumbnail(`${usr.displayAvatarURL()}`)
-      .setDescription(`Created On: ${usr.createdAt}`)
-      .setFooter('<3 MadGlory, SEMC, Discord', this.client.user.avatarURL())
+      .setDescription(`**Created On:** ${usr.createdAt}`)
+      .setFooter('EZL - The League For Everyone', this.client.user.avatarURL())
       .setURL('https://discord.me/EZL')
       .addField('Status',
-        `Game: ${usr.presence.game}\nStatus: ${usr.presence.status}`)
+        `**Game:** ${usr.presence.game}\n**Status:** ${usr.presence.status}`)
     return msg.reply({ embed })
   }
 

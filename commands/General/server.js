@@ -86,7 +86,7 @@ module.exports = class extends Command {
       .setAuthor(`${server.name} ID: ${server.id}`, guild.iconURL())
       .setColor(0x3D85C6)
       .setThumbnail(server.image)
-      .addField('General Info', `Owner: ${server.owner}\nCreated: ${server.createdAt}\nBot Joined: ${server.botJoin}\nRegion: ${server.region}\nFilter Level: ${server.filter}\nRoles: ${server.roles}`)
+      .addField('General Info', `**Owner:**        ${server.owner}\n\n**Created:**     ${server.createdAt}\n\n**Bot Joined:** ${server.botJoin}\n\n**Roles:**       ${server.roles}`)
       .addField(`Members: ${server.members}`, `Online: ${server.online}\nUsers: ${parseInt(server.members) - parseInt(server.bots)}\nBots: ${server.bots}`, true)
       .addField(`Channels: ${server.channels}`, `Text: ${server.text}\nVoice: ${parseInt(server.channels) - parseInt(server.text)}`, true)
       .addField(`Active Members Since Last Bot Update: ${server.activity.length}`, `Daily: ${server.daily.length}\nWeekly: ${server.weekly.length}\nMonthly: ${server.monthly.length}`)
