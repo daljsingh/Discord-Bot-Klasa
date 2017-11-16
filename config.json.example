@@ -1,7 +1,14 @@
 {
-    "botToken": "Your Bot Token Here",
+    "botToken": "Bot-Token-Here",
     "ezl": {
-		"id": "233300409308020736"
+		"id": "233300409308020736",
+		"channels": {
+			"applications": {
+				"hr": "379518674853167104"
+			},
+			"live": "362745752390205451",
+			"prrequest": "379017837789839361"
+		}
 	},
     "lottery": {
         "onOff": true,
