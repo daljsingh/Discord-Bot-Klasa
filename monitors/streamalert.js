@@ -1,5 +1,6 @@
 const { Monitor } = require('klasa');
 const config = require('../config/config.json')
+
 module.exports = class extends Monitor {
 
     constructor(...args) {
@@ -13,7 +14,7 @@ module.exports = class extends Monitor {
 
     run(msg) {
         if (msg.channel.id !== config.ezl.channels.live) return
-        msg.guild.channels.get(config.ezl.channels.prrequest).send(msg.content)
+        return msg.guild.channels.get(config.ezl.channels.prrequest).send(msg.content)
     }
 
     async init() {
