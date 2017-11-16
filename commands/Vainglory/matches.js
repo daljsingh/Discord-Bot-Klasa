@@ -92,7 +92,7 @@ module.exports = class extends Command {
         await this.album.addPage(e => e
           .setAuthor(`${ign} | ${data.region} | ${data.gameMode} | ${winLose === 'true' ? 'VICTORY' : 'DEFEAT'}`, this.client.user.displayAvatarURL())
           .setColor(team === data.side.a ? '#00C2EC' : '#EE7200')
-          .setDescription(`**Duration:** ${Math.floor(data.duration / 60)}:${data.duration % 60} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces.a}    Gold: ${data.tGold.a}    Kills: ${data.tKills.aHeroes}    Krakens: ${data.tKills.aKrakens}    Turrets: ${data.tKills.aTurrets}
+          .setDescription(`**Duration:** ${data.durationMin}:${data.durationSec} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces.a}    Gold: ${data.tGold.a}    Kills: ${data.tKills.aHeroes}    Krakens: ${data.tKills.aKrakens}    Turrets: ${data.tKills.aTurrets}
 **Red  Team:** Aces: ${data.aces.b}    Gold: ${data.tGold.b}    Kills: ${data.tKills.bHeroes}     Krakens: ${data.tKills.bKrakens}    Turrets: ${data.tKills.bTurrets}`)
           .addField(`${data.names.p1}`, `${data.heroes.p1}${data.vst.p1}${data.items.p1}\n${matchData.matches(data.kills.p1, data.deaths.p1, data.assists.p1, data.cs.p1, data.csMin.p1, data.jungle.p1, data.gold.p1, data.goldMin.p1)}`, true)
           .addField(`${data.names.p2}`, `${data.heroes.p2}${data.vst.p2}${data.items.p2}\n${matchData.matches(data.kills.p2, data.deaths.p2, data.assists.p2, data.cs.p2, data.csMin.p2, data.jungle.p2, data.gold.p2, data.goldMin.p2)}`, true)
