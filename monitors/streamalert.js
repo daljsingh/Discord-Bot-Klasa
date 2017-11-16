@@ -12,7 +12,7 @@ module.exports = class extends Monitor {
     }
 
     run(msg) {
-        if (msg.channel.id !== (config.ezl.channels.live)) return
+        if (msg.channel.id !== config.ezl.channels.live) return
         msg.guild.channels.get(config.ezl.channels.prrequest).send(msg.content)
     }
 
