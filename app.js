@@ -11,7 +11,7 @@ const client = new Client({
   typing: true,
   readyMessage: (client) => `${client.user.tag}, Ready to serve ${client.guilds.size} guilds and ${client.users.size} users`
 })
-
+client.on.setActivity(`$help|In ${client.guilds.size} Guilds.`)
 client.permissionLevels = new PermissionLevels()
   // Everyone can use these commands
   .addLevel(0, false, () => true)
