@@ -50,12 +50,12 @@ module.exports = class extends Command {
                 msg.reply('Describe in **detail** about any experiences that you have?').then(message => {
                   const filter = m => m.author === msg.author
                   // Errors: ['time'] treats ending because of the time limit as an error
-                  msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }).then(exp => {
+                  msg.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] }).then(exp => {
                     experience = exp.first().content
                     msg.reply('Who recommended you to join? `If no one just write no one.`').then(message => {
                       const filter = m => m.author === msg.author
                       // Errors: ['time'] treats ending because of the time limit as an error
-                      msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }).then(rec => {
+                      msg.channel.awaitMessages(filter, { max: 1, time: 120000, errors: ['time'] }).then(rec => {
                         recommendation = rec.first().content
                         switch (department) {
                           case 'moderator':
@@ -88,14 +88,14 @@ module.exports = class extends Command {
                                               const allowed = ['1', '2']
                                               const filter = m => m.author === msg.author && allowed.includes(m.content.toLowerCase())
                                               // Errors: ['time'] treats ending because of the time limit as an error
-                                              msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }).then(work => {
+                                              msg.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] }).then(work => {
                                                 if (work.first().content === '1') working = 'Working in a busy, active job with alot of interaction with people? example A morning shift convenience store cashier.'
                                                 else working = 'Working in a quiet, non busy job with minimal interactions with people? example An overnight stock person.'
                                                 msg.reply(`Which option would you prefer? Please type \`1\` or \`2\`\n1) Try to resolve a fight between your friends.\n\n2) Staying out of it and letting them resolve it.`).then(message => {
                                                   const allowed = ['1', '2']
                                                   const filter = m => m.author === msg.author && allowed.includes(m.content.toLowerCase())
                                                   // Errors: ['time'] treats ending because of the time limit as an error
-                                                  msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }).then(fight => {
+                                                  msg.channel.awaitMessages(filter, { max: 1, time: 300000, errors: ['time'] }).then(fight => {
                                                     if (fight.first().content === '1') fighting = 'Try to resolve a fight between your friends.'
                                                     else fighting = 'Staying out of it and letting them resolve it.'
                                                     msg.reply(`Human Resources not only tends to guests, members, staff and others needs for assistance but mainly ensures that rules and guidelines are being followed. Two such rules of EZL Inc. Is that No Gore or Pornography is allowed, being a Moderator means you may come across such material if a member or guest randomly posts such an offense. By entering your name below you legally confirm that you are 17 years old or older and EZL Inc is not responsible for any issues you may come across  and experience while moderating.`).then(message => {
