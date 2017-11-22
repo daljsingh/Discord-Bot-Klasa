@@ -70,7 +70,7 @@ module.exports = class extends Command {
       }
     }
     const vainglory = new Vainglory(config.vgKey, options)
-    await vainglory.region(region).matches.collection(options).then(async (matches) => {
+    await vainglory.region(region !== 'sea' ? region : 'sg').matches.collection(options).then(async (matches) => {
       if (matches.errors) {
         console.log(`Error: ${matches.messages} at ${matches.debug.url}`)
         return msg.reply('Please check the IGN and Region and try again. The API returned an error saying incorrect IGN or region.')
