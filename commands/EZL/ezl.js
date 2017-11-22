@@ -30,7 +30,7 @@ module.exports = class extends Command {
       .setFooter(`© Esports Zodiac League LLC (EZL)`)
     switch (type) {
       case 'rules':
-        embed.setAuthor('EZL Rules And Regulations', this.client.user.avatarURL())
+        embed.setAuthor('EZL Rules And Regulations', this.client.user.displayAvatarURL())
         embed.setDescription('Please read the following rules and guidelines for the EZL LLC server. Joining this server constitutes an agreement to abide by these rules. Failure to do so will result to your removal. This server has members of all ages, nationalities, creeds, religions, beliefs, orientations etc., so be respectful of others while you are here.')
         embed.addField('General Rules:', `:one: Vulgarity is strictly prohibited, its common sense. This includes but not limited to: text, audio, PFP, Discord tags.
 :two: Do not ask for personal information. This includes but not limited to phone numbers, social media accounts or chat apps info. 
@@ -44,7 +44,7 @@ module.exports = class extends Command {
 :two: Porn/gore and inappropriate image links will result in a ban.
 :three: leaked content is not welcome in this server,  repeated offenses will result in a kick or a ban.
 :four: Share links in proper channels, If link posting privileges are abused, they will be removed.`)
-        break
+          break
       case 'links':
         return msg.channel.send(`<:ezl:337567718666534913> **__Website:__** <http://ezlgg.com/>
   
@@ -60,12 +60,12 @@ module.exports = class extends Command {
   English: <https://www.facebook.com/EZLOfficial>
   Espanol: <https://www.facebook.com/EZLOficialES>
   
-  <:youtube:337567570251218946> **__YouTube:__** <https://www.youtube.com/c/EZLOfficial>`)
+  <:youtube:337567570251218946> **__YouTube:__** <https://www.youtube.com/c/EZLOfficial>`) 
       case 'bot':
         return msg.channel.send(`
 <:ezl:337567718666534913> **__EZLBot__** Official hand made bot for EZL that has many features developed into it, it is also a \`Public Bot\` that any Vainglory player can use.`)
-      case 'leagues':
-        return msg.channel.send(`**__Masters League:__** <:ezl:337567718666534913> Is for Players with a pre made team that you want to play in a league.
+        case 'leagues':
+         return msg.channel.send(`**__Masters League:__** <:ezl:337567718666534913> Is for Players with a pre made team that you want to play in a league.
 
         <:ezl:337567718666534913> **__Majors League:__** Is for Individuals who don’t have a team and are chosen by captains to be placed on a team.
 
