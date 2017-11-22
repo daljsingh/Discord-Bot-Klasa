@@ -20,6 +20,7 @@ module.exports = class extends Command {
   }
 
   async run (msg, [type]) {
+    msg.delete()
     const allowedTypes = ['rules', 'links', 'bot', 'leagues', 'staff', 'vg8', 'lottery']
     if (!allowedTypes.includes(type)) return msg.reply(`That is not a valid type. Valid types are ${allowedTypes.join(', ')}`)
     const embed = new this.client.methods.Embed()
@@ -47,7 +48,6 @@ module.exports = class extends Command {
       case 'links':
         return msg.channel.send(`<:ezl:337567718666534913> **__Website:__** <http://ezlgg.com/>
   
-<<<<<<< HEAD
   <:band:337827458915237888>  **__BAND:__** <https://ezlgg.com/band>
   
   <:discord:337828611187015680>  **__EZL LLC:__** <https://ezlgg.com/discord>

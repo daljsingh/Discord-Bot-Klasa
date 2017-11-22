@@ -158,32 +158,6 @@ module.exports = class extends Command {
                               })
                             })
                             break
-                            case 'masters':
-                                let account, reason
-                                msg.reply('Which do you want to do `Twitter` or `Facebook`?').then(message => {
-                                    const allowed = ['twitter', 'facebook']
-                                    const filter = m => m.author === msg.author && allowed.includes(m.content.toLowerCase())
-                                    // Errors: ['time'] treats ending because of the time limit as an error
-                                    msg.channel.awaitMessages(filter, { max: 1, time: 60000, errors: ['time'] }).then(acc => {
-                                        account = acc.first().content
-                                        msg.reply('Why do you want to be a part of Public Relations in EZL? *10 Minutes to answer*').then(message => {
-                                            const filter = m => m.author === msg.author
-                                            // Errors: ['time'] treats ending because of the time limit as an error
-                                            msg.channel.awaitMessages(filter, { max: 1, time: 600000, errors: ['time'] }).then(reas => {
-                                                reason = reas.first().content
-                                                msg.reply('Thank you so much for applying to <:ezlstaff:360772426902274058>! Your application has now been sent to the proper person and you will recieve a reply as soon as possible.')
-                                                embed.addField('What are you trying to apply for?', department)
-                                                embed.addField('How old are you?', age)
-                                                embed.addField('Describe in **detail** about any experiences that you have?', experience)
-                                                embed.addField('Who recommended you to join? `If no one just write no one.', recommendation)
-                                                embed.addField('Which do you want to do `Twitter` or `Facebook`?', account)
-                                                embed.addField('Why do you want to be a part of Public Relations in EZL?', reason)
-                                                return this.client.channels.get(config.ezl.channels.applications.pr).send({ embed })
-                                            })
-                                        })
-                                    })
-                                })
-                                break
                           default:
                         }
                       })
