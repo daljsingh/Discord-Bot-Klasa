@@ -32,7 +32,7 @@ module.exports = class extends Command {
   async run (msg, [username, server, mode]) {
     this.album.pages = []
     let region, name, ign, lowerRegion
-    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn']
+    const allowedRegions = ['na', 'eu', 'sa', 'ea', 'sea', 'sg', 'cn']
     if (server) {
       lowerRegion = server.toLowerCase()
       region = await vg.region(this.client, msg, lowerRegion)
@@ -40,7 +40,7 @@ module.exports = class extends Command {
     if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
     if (username && !server) region = await this.client.settings.users.get(msg.author.id).region
     if (!username) {
-      name = await this.client.settings.users.get(msg.author.id)
+      name = await this.client.providers.get('json').get('users', msg.author.id)
       if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
       if (!name.ign) return msg.reply('I recently got a huge update and the database that contains the names is still transferring over. In the meantime, you can do the $save command again. I am sorry for the inconvenience. For more info join me at https://discord.gg/VHVY7rb')
       ign = await crypto.decrypt(name.ign)

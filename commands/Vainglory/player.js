@@ -24,7 +24,7 @@ module.exports = class extends Command {
   }
 
   async run (msg, [username, server]) {
-    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn', 't-na', 't-eu', 't-sa', 't-sea', 't-sg', 't-cn']
+    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn', 'ea']
     let lowerRegion = ''
     let region
     if (server) {

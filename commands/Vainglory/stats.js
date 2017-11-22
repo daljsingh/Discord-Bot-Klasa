@@ -23,7 +23,7 @@ module.exports = class extends Command {
   }
 
   async run (msg, [username, server, ...mode]) {
-    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn']
+    const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn', 'ea']
     let lowerRegion, region, ign, name, rosterI, rosterP, gameString, gameHero
     if (server) {
       if (username) ign = username
