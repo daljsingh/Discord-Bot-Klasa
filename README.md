@@ -33,5 +33,7 @@ You can read all the [documentation](http://ezlgg.com/ezl-bot-info/) at any time
 
 Founder And Lead Dev: Skillz4Killz
 
-##
 
+## Support And Donate:
+
+https://patreon.com/ezl
