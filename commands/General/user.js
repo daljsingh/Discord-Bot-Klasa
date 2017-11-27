@@ -22,11 +22,11 @@ module.exports = class extends Command {
   async run (msg, [usr]) {
     const embed = new this.client.methods.Embed()
       .setTitle(`User Info of ${usr.username}`)
-      .setAuthor(this.client.user.username, this.client.user.avatarURL())
+      .setAuthor(this.client.user.username, this.client.user.displayAvatarURL())
       .setColor(0x00AE86)
       .setThumbnail(`${usr.displayAvatarURL()}`)
       .setDescription(`**Created On:** ${usr.createdAt}`)
-      .setFooter('EZL - The League For Everyone', this.client.user.avatarURL())
+      .setFooter('EZL - The League For Everyone', this.client.user.displayAvatarURL())
       .setURL('https://discord.me/EZL')
       .addField('Status',
         `**Game:** ${usr.presence.game}\n**Status:** ${usr.presence.status}`)

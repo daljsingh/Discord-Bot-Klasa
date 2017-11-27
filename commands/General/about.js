@@ -22,10 +22,10 @@ module.exports = class extends Command {
   async run (msg, [...params]) {
     const embed = new this.client.methods.Embed()
       .setTitle('About EZLBot - The Bot For Everyone!')
-      .setAuthor(this.client.user.username, this.client.user.avatarURL())
+      .setAuthor(this.client.user.username, this.client.user.displayAvatarURL())
       .setColor(0x00AE86)
       .setDescription('Hi, I\'m EZLBot, a growing community bot that has new features added regularly. For now I control VG soon I will control the world. 😃')
-      .setFooter('<3 MadGlory, SEMC, Discord', this.client.user.avatarURL())
+      .setFooter('<3 MadGlory, SEMC, Discord', this.client.user.displayAvatarURL())
       .setURL('https://discord.me/EZL')
       .addField('What can I do?',
         'For a look at what I can do type **$help**.')

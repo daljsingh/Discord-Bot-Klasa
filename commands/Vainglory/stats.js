@@ -143,10 +143,10 @@ module.exports = class extends Command {
     }
     const embed = new this.client.methods.Embed()
       .setTitle('See Even More At VGPRO.GG Here')
-      .setAuthor(ign, this.client.user.avatarURL())
+      .setAuthor(ign, this.client.user.displayAvatarURL())
       .setColor(0x00AE86)
       .setDescription(`Stats of **${matches.match.length}** games played since 28 days ago`)
-      .setFooter('<3 MadGlory, SEMC', this.client.user.avatarURL())
+      .setFooter('<3 MadGlory, SEMC', this.client.user.displayAvatarURL())
       .setURL(`https://vgpro.gg/players/${region}/${ign}`)
       .addField(`__Last Played__`, `Mode: ${vg.gameModes(matches.match[0].data.attributes.gameMode)}
 Date: ${moment(matches.match[0].data.attributes.createdAt)}`, true)

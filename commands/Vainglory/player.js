@@ -66,11 +66,11 @@ module.exports = class extends Command {
       const total = parseInt(stats.played_casual, 10) + parseInt(stats.played_ranked, 10) + parseInt(stats.played_aral, 10) + parseInt(stats.played_blitz, 10)
       const embed = new this.client.methods.Embed()
         .setTitle(`Click Here For More Details At VGPRO.GG`)
-        .setAuthor(`${ign} | Level: ${stats.level}`, this.client.user.avatarURL())
+        .setAuthor(`${ign} | Level: ${stats.level}`, this.client.user.displayAvatarURL())
         .setColor(0x00AE86)
         .setThumbnail(vg.VST(stats.skillTier, true))
         .setDescription('Vg Profile Data')
-        .setFooter('Does Casual look weird, tell me with $contact. Need proof for SEMC.', this.client.user.avatarURL())
+        .setFooter('Does Casual look weird, tell me with $contact. Need proof for SEMC.', this.client.user.displayAvatarURL())
         .setURL(`https://vgpro.gg/players/${region}/${ign}`)
         .addField('**__Lifetime Stats__**',
           `**Win Rate:** ${Math.round((stats.wins / total) * 100)}% | **Wins:** ${stats.wins} | **Lost:** ${total - stats.wins} | **Played:** ${total} | 
