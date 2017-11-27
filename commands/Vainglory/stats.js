@@ -24,7 +24,7 @@ module.exports = class extends Command {
 
   async run (msg, [username, server, ...mode]) {
     const allowedRegions = ['na', 'eu', 'sa', 'sea', 'sg', 'cn', 'ea']
-    let lowerRegion, region, ign, name, rosterI, rosterP, gameString, gameHero
+    let lowerRegion, region, ign, name, rosterI, rosterP, gameString = '', gameHero = ''
     if (server) {
       if (username) ign = username
       lowerRegion = server.toLowerCase()
@@ -32,7 +32,7 @@ module.exports = class extends Command {
     }
     if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
     if (!username) {
-      name = await this.client.settings.users.get(msg.author.id)
+      name = await this.client.providers.get('json').get('users', msg.author.id)
       if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
       if (!name.ign) return msg.reply('I recently got a huge update and the database that contains the names is still transferring over. In the meantime, you can do the $save command again. I am sorry for the inconvenience. For more info join me at https://discord.gg/VHVY7rb')
       ign = await crypto.decrypt(name.ign)
@@ -62,7 +62,7 @@ module.exports = class extends Command {
       }
     }
     const vainglory = new Vainglory(config.vgKey, options)
-    const matches = await vainglory.region(region).matches.collection(options)
+    const matches = await vainglory.region(region === 'sea' ? 'sg' : region).matches.collection(options)
     if (matches.errors) {
       return msg.reply('This account does not exist in the API or it had a match with less than 6 players. Please try again or contact the developers for more help.')
     }

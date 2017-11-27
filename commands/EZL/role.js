@@ -13,7 +13,7 @@ module.exports = class extends Command {
       botPerms: ['MANAGE_ROLES'],
       requiredSettings: [],
       description: 'Give or take a role.',
-      quotedStringSupport: false,
+      quotedStringSupport: true,
       usage: '[role:str] [member:member]',
       usageDelim: ' ',
       extendedHelp: 'No extended help available.'

@@ -37,12 +37,14 @@ module.exports = class extends Command {
     let ign = ''
     let name
     if (!username) {
-      name = await this.client.settings.users.get(msg.author.id)
+      name = await this.client.providers.get('json').get('users', msg.author.id)
       if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')
-      console.log(name.ign)
       if (!name.ign) return msg.reply('I recently got a huge update and the database that contains the names is still transferring over. In the meantime, you can do the $save command again. I am sorry for the inconvenience. For more info join me at https://discord.gg/VHVY7rb')
       ign = await crypto.decrypt(name.ign)
       region = await crypto.decrypt(name.region)
+      console.log(region)
+      // if (region === 'sea') region = 'sg'
+      // console.log(region)
     }
     if (username && !server) {
       ign = username
@@ -54,7 +56,8 @@ module.exports = class extends Command {
     /* Must take an array */
     const playerNames = []
     playerNames.push(ign)
-    await vainglory.region(region).players.getByName(playerNames).then((players) => {
+    console.log(region)
+    await vainglory.region().players.getByName(playerNames).then((players) => {
       if (players.errors) {
         console.log(players)
         return msg.reply(`Please check the IGN and Region and try again. The API returned an error saying incorrect IGN or region.\n${players.messages}`)

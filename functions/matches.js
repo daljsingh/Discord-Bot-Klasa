@@ -100,7 +100,7 @@ exports.getData = (matches, num) => {
     data.goldMiners[player] = roster.goldMineCaptures
     data.deaths[player] = roster.deaths
     data.cs[player] = Math.floor(roster.farm)
-    data.csMin[player] = Math.floor(roster.farm / (data.duration / 60))
+    data.csMin[player] = Math.floor(roster.farm / data.durationMin)
     data.gold[player] = Math.floor(roster.gold).toLocaleString()
     data.goldMin[player] = Math.floor(parseInt(roster.gold, 10) / (parseInt(duration, 10) / 60)).toLocaleString()
     data.items[player] = vg.items(roster.items)
@@ -122,8 +122,8 @@ exports.getData = (matches, num) => {
   return data
 }
 
-exports.matches = (kills, deaths, assists, cs, csMin, jungle, gold, goldMin) => {
+exports.matches = (kills, deaths, assists, cs, csMin, jungle, gold, goldMin, teamKills) => {
   let playerOutput = ``
-  playerOutput += `KDA: ${kills}/${deaths}/${assists}      CS: ${cs}     CS/min: ${csMin}     Jungle: ${jungle}     Gold: ${gold}      Gold/min: ${goldMin}`
+  playerOutput += `KDA: ${kills}/${deaths}/${assists}     KP: ${Math.round(((kills + assists) / teamKills) * 100)}%      CS: ${cs}     CS/min: ${csMin}     Jungle: ${jungle}     Gold: ${gold}      Gold/min: ${goldMin}`
   return playerOutput
 }

@@ -94,12 +94,12 @@ module.exports = class extends Command {
           .setColor(team === data.side.a ? '#00C2EC' : '#EE7200')
           .setDescription(`**Duration:** ${data.durationMin}:${data.durationSec} \n**Time:** ${moment(data.time)}\n**Blue Team:** Aces: ${data.aces.a}    Gold: ${data.tGold.a}    Kills: ${data.tKills.aHeroes}    Krakens: ${data.tKills.aKrakens}    Turrets: ${data.tKills.aTurrets}
 **Red  Team:** Aces: ${data.aces.b}    Gold: ${data.tGold.b}    Kills: ${data.tKills.bHeroes}     Krakens: ${data.tKills.bKrakens}    Turrets: ${data.tKills.bTurrets}`)
-          .addField(`${data.names.p1}`, `${data.heroes.p1}${data.vst.p1}${data.items.p1}\n${matchData.matches(data.kills.p1, data.deaths.p1, data.assists.p1, data.cs.p1, data.csMin.p1, data.jungle.p1, data.gold.p1, data.goldMin.p1)}`, true)
-          .addField(`${data.names.p2}`, `${data.heroes.p2}${data.vst.p2}${data.items.p2}\n${matchData.matches(data.kills.p2, data.deaths.p2, data.assists.p2, data.cs.p2, data.csMin.p2, data.jungle.p2, data.gold.p2, data.goldMin.p2)}`, true)
-          .addField(`${data.names.p3}`, `${data.heroes.p3}${data.vst.p3}${data.items.p3}\n${matchData.matches(data.kills.p3, data.deaths.p3, data.assists.p3, data.cs.p3, data.csMin.p3, data.jungle.p3, data.gold.p3, data.goldMin.p3)}\n\n**Red Team:**\n`)
-          .addField(`${data.names.p4}`, `${data.heroes.p4}${data.vst.p4}${data.items.p4}\n${matchData.matches(data.kills.p4, data.deaths.p4, data.assists.p4, data.cs.p4, data.csMin.p4, data.jungle.p4, data.gold.p4, data.goldMin.p4)}`)
-          .addField(`${data.names.p5}`, `${data.heroes.p5}${data.vst.p5}${data.items.p5}\n${matchData.matches(data.kills.p5, data.deaths.p5, data.assists.p5, data.cs.p5, data.csMin.p5, data.jungle.p5, data.gold.p5, data.goldMin.p5)}`)
-          .addField(`${data.names.p6}`, `${data.heroes.p6}${data.vst.p6}${data.items.p6}\n${matchData.matches(data.kills.p6, data.deaths.p6, data.assists.p6, data.cs.p6, data.csMin.p6, data.jungle.p6, data.gold.p6, data.goldMin.p6)}`))
+          .addField(`${data.names.p1}`, `${data.heroes.p1}${data.vst.p1}${data.items.p1}\n${matchData.matches(data.kills.p1, data.deaths.p1, data.assists.p1, data.cs.p1, data.csMin.p1, data.jungle.p1, data.gold.p1, data.goldMin.p1, data.tKills.aHeroes)}`, true)
+          .addField(`${data.names.p2}`, `${data.heroes.p2}${data.vst.p2}${data.items.p2}\n${matchData.matches(data.kills.p2, data.deaths.p2, data.assists.p2, data.cs.p2, data.csMin.p2, data.jungle.p2, data.gold.p2, data.goldMin.p2, data.tKills.aHeroes)}`, true)
+          .addField(`${data.names.p3}`, `${data.heroes.p3}${data.vst.p3}${data.items.p3}\n${matchData.matches(data.kills.p3, data.deaths.p3, data.assists.p3, data.cs.p3, data.csMin.p3, data.jungle.p3, data.gold.p3, data.goldMin.p3, data.tKills.aHeroes)}\n\n**Red Team:**\n`)
+          .addField(`${data.names.p4}`, `${data.heroes.p4}${data.vst.p4}${data.items.p4}\n${matchData.matches(data.kills.p4, data.deaths.p4, data.assists.p4, data.cs.p4, data.csMin.p4, data.jungle.p4, data.gold.p4, data.goldMin.p4, data.tKills.bHeroes)}`)
+          .addField(`${data.names.p5}`, `${data.heroes.p5}${data.vst.p5}${data.items.p5}\n${matchData.matches(data.kills.p5, data.deaths.p5, data.assists.p5, data.cs.p5, data.csMin.p5, data.jungle.p5, data.gold.p5, data.goldMin.p5, data.tKills.bHeroes)}`)
+          .addField(`${data.names.p6}`, `${data.heroes.p6}${data.vst.p6}${data.items.p6}\n${matchData.matches(data.kills.p6, data.deaths.p6, data.assists.p6, data.cs.p6, data.csMin.p6, data.jungle.p6, data.gold.p6, data.goldMin.p6, data.tKills.bHeroes)}`))
       }
       this.album.run(msg)
     })
