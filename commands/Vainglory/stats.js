@@ -2,6 +2,7 @@ const { Command } = require('klasa')
 const Vainglory = require('vainglory')
 const config = require('../../config/config.json')
 const vg = require('../../functions/vg.js')
+const format = require('../../functions/format.js')
 const crypto = require('../../functions/crypto/crypto')
 const moment = require('moment')
 moment().format()
@@ -40,14 +41,19 @@ module.exports = class extends Command {
     }
     if (username && !server) {
       ign = username
-      region = await this.client.settings.users.get(msg.author.id).region
+      region = await vg.checkRegion(ign)
+      console.log(region)
     }
     if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **$save yourIgn yourRegion**')
     const gameModes = {}, heroes = {}
     let sortedGames = [], sortedHeroes = []
     let wins = 0, afk = 0, hSkillTier = 0, krakens = 0, miners = 0, durations = 0, laneM = 0, jungleM = 0, farms = 0, golds = 0
-    const now = new Date()
-    const minus28Days = new Date((new Date() * 1) - 2419200000)
+    let allModes = []
+    if (mode) {
+      for (let i = 0; i < mode.length; i++) {
+        allModes.push(vg.reverseGameModes(mode[i]))
+      }
+    }
     const options = {
       page: {
         offset: 0,
@@ -55,10 +61,8 @@ module.exports = class extends Command {
       },
       sort: '-createdAt', // -createdAt for reverse
       filter: {
-        // gameMode: allModes,
-        'createdAt-start': minus28Days.toISOString(), // ISO Date
-        'createdAt-end': now.toISOString(), // ISO Date
-        playerNames: [`${ign}`]
+        gameMode: allModes,
+        playerNames: [ign]
       }
     }
     const vainglory = new Vainglory(config.vgKey, options)
@@ -135,7 +139,7 @@ module.exports = class extends Command {
     // Converting array into embed format
     for (let b = 0; b < sortedGames.length; b++) {
       if (b === 3) break
-      gameString += sortedGames[b][1] === 0 ? `` : `**${b + 1}:** ${sortedGames[b][0]}: ${sortedGames[b][1]}\n`
+      gameString += sortedGames[b][1] === 0 ? `` : `**${b + 1}:** ${format.toTitleCase(sortedGames[b][0])}: ${sortedGames[b][1]}\n`
     }
     for (let c = 0; c < sortedHeroes.length; c++) {
       if (c === 3) break

@@ -38,7 +38,7 @@ module.exports = class extends Command {
       region = await vg.region(this.client, msg, lowerRegion)
     }
     if (server && !allowedRegions.includes(lowerRegion)) return msg.reply(`⚠ \`${server}\` is not an allowed region. Allowed region are \`${allowedRegions.join('`, `')}\``)
-    if (username && !server) region = await this.client.settings.users.get(msg.author.id).region
+    if (username && !server) region = await vg.checkRegion(username)
     if (!username) {
       name = await this.client.providers.get('json').get('users', msg.author.id)
       if (!name) return msg.reply('⚠ You didn\'t give an IGN, and you have not done `$save yourIgn yourRegion`')

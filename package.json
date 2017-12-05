@@ -11,10 +11,8 @@
   "dependencies": {
     "discord.js": "github:hydrabolt/discord.js",
     "klasa": "github:dirigeants/klasa",
-    "komada": "^0.20.10",
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13",
-    "mongodb": "^2.2.33",
     "vainglory": "^1.3.3"
   },
   "devDependencies": {

@@ -294,7 +294,9 @@ exports.reverseGameModes = (type) => {
     blitz: 'blitz_pvp_ranked',
     ranked: 'ranked',
     casual: 'casual',
-    private: ['private_party_aral_match', 'private_party_draft_match', 'private'],
+    private: ['private_party_aral_match', 'private_party_draft_match', 'private', 'private_party_blitz_rounds_match'],
+    onslaught: 'private_party_blitz_rounds_match',
+    Onslaught: 'private_party_blitz_rounds_match',
     BR: 'casual_aral',
     br: 'casual_aral',
     standard: ['ranked', 'casual'],
@@ -312,7 +314,8 @@ exports.gameModes = (type) => {
     casual_aral: 'Battle Royale',
     private: 'Private',
     private_party_draft_match: 'Private Draft',
-    private_party_aral_match: 'Private Battle Royale'
+    private_party_aral_match: 'Private Battle Royale',
+    private_party_blitz_rounds_match: 'Onslaught'
   }
   return gameModes[type]
 }
@@ -354,6 +357,7 @@ exports.heroes = (hero) => {
     skaarf: '<:030:334004993642332160>',
     skye: '<:031:334004990991663104>',
     taka: '<:032:334004995961782272>',
+    varya: '<:>',
     vox: '<:034:334004996985323520>'
   }
   return heroes[hero.toLowerCase().slice(1, -1)]
@@ -450,24 +454,22 @@ exports.items = (items) => {
 exports.checkRegion = async (ign) => {
   const Vainglory = require('vainglory')
   const allRegions = ['na', 'eu', 'ea', 'sa', 'sg', 'cn']
-  let region
-
-  /* Default Options for calling VG API */
+  let actualRegion
   const options = {
-    host: 'https://api.dc01.gamelockerapp.com/shards/',
-    /* Default NA region */
-    region: 'na',
-    title: 'semc-vainglory'
+    page: {
+      offset: 0,
+      limit: 1
+    },
+    sort: '-createdAt', // -createdAt for reverse
+    filter: {
+      playerNames: [ign]
+    }
   }
-
   const vainglory = new Vainglory(config.vgKey, options)
-  /* Must take an array */
-  const playerNames = [ign]
-  for (let i = 0; i < allRegions.length; i++) {
-    region = await vainglory.region(allRegions[i]).players.getByName(playerNames).then((players) => {
-      // If player object exists return the region in which it exists
-      if (!players.errors) return allRegions[i]
+  for (const region of allRegions) {
+    await vainglory.region(region).matches.collection(options).then(async (matches) => {
+      if (!matches.errors) actualRegion = region
     })
   }
-  return region
+  return actualRegion
 }

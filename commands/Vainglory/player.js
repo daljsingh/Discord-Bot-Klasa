@@ -48,7 +48,7 @@ module.exports = class extends Command {
     }
     if (username && !server) {
       ign = username
-      region = await this.client.settings.users.get(msg.author.id).region
+      region = await vg.checkRegion(ign)
     }
     if (username) ign = username
     if (!ign) return msg.reply('⚠ You didn\'t provide an IGN and region to search for. Are you sure you have done **$save yourIgn yourRegion**')
@@ -57,7 +57,7 @@ module.exports = class extends Command {
     const playerNames = []
     playerNames.push(ign)
     console.log(region)
-    await vainglory.region().players.getByName(playerNames).then((players) => {
+    await vainglory.region(region === 'sea' ? 'sg' : region).players.getByName(playerNames).then((players) => {
       if (players.errors) {
         console.log(players)
         return msg.reply(`Please check the IGN and Region and try again. The API returned an error saying incorrect IGN or region.\n${players.messages}`)
