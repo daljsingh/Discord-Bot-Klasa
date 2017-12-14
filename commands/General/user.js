@@ -9,7 +9,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: [],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'Find out information about a user by @ them.',
       quotedStringSupport: false,

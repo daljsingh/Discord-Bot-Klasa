@@ -9,7 +9,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: [],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'Wanting to donate to help EZL grow and achieve its vision? Here is how you can make it possible.',
       quotedStringSupport: false,

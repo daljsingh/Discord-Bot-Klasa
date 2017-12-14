@@ -10,7 +10,7 @@ module.exports = class extends Command {
       enabled: true,
       cooldown: 0.5,
       permLevel: 0,
-      botPerms: [], // Embeds and external emojis
+      botPerms: ['EMBED_LINKS'], // Embeds and external emojis
       requiredSettings: [],
       description: 'Check the status of the Vainglory API for each region.',
       usage: '',

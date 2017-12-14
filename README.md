@@ -31,7 +31,9 @@ You can read all the [documentation](http://ezlgg.com/ezl-bot-info/) at any time
 
 ## Developers
 
-Founder And Lead Dev: Skillz4Killz
+•-Founder And Lead Dev: Skillz4Killz
+
+•-Dev Officer: ValidDerpDam
 
 ## Support And Donate:
 

@@ -12,7 +12,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: ['c', 'vgc'],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'Compares up to 6 player profiles from any regions. Ex: !compare ign1 region ign2 region ign3 region',
       quotedStringSupport: true,

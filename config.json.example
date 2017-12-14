@@ -8,7 +8,8 @@
 				"pr": "382694944067944448"
 			},
 			"live": "360828870674350100",
-			"prrequest": "360626035563167754"
+			"prrequest": "360626035563167754",
+			"welcome": "337512497676419083"
 		}
 	},
     "lottery": {
@@ -17,6 +18,7 @@
         "amount": 1000,
         "cooldown": 1000
     },
+    "heroes": ['adagio', 'alpha', 'ardan', 'baptiste', 'baron', 'blackfeather', 'catherine', 'celeste', 'flicker', 'fortress', 'glaive', 'grace', 'grumpjaw', 'gwen', 'idris', 'joule', 'kestrel', 'koshka', 'krul', 'lance', 'lyra', 'ozo', 'petal', 'phinn', 'reim', 'reza', 'ringo', 'rona', 'samuel', 'saw', 'skaarf', 'skye', 'taka', 'vox'],
 	"testers": [],
     "vgKey": ""
 }

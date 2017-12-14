@@ -13,7 +13,7 @@ module.exports = class extends Command {
       name: 'stats',
       aliases: ['vgs', 's', 'vgstats'],
       permLevel: 0,
-      botPerms: [], // Add Embed links perm
+      botPerms: ['EMBED_LINKS'], // Add Embed links perm
       requiredSettings: [],
       description: 'See your stats based on the matches made in last 28 days. You can also filter by game modes.',
       quotedStringSupport: true,

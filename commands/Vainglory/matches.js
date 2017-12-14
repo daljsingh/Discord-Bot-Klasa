@@ -16,7 +16,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: ['vgm', 'm', 'vgmatches'],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'See your Vainglory match history in the last 28 days.',
       quotedStringSupport: true,
@@ -30,6 +30,7 @@ module.exports = class extends Command {
   }
 
   async run (msg, [username, server, mode]) {
+    this.album.run(msg, { time: 300000 })
     this.album.pages = []
     let region, name, ign, lowerRegion
     const allowedRegions = ['na', 'eu', 'sa', 'ea', 'sea', 'sg', 'cn']

@@ -9,7 +9,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: [],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'Gives information about the server that the command is typed in.',
       quotedStringSupport: false,

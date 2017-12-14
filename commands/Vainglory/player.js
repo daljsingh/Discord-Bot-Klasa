@@ -13,7 +13,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: ['p', 'vgp', 'profile'],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['EMBED_LINKS'],
       requiredSettings: [],
       description: 'Shows the Vainglory player profile',
       quotedStringSupport: true,
