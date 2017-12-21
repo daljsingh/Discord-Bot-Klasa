@@ -1,9 +1,3 @@
-### Version 1.0.1
-- blacklist
-- adagio stats
-- v4.2.2 (#64) (origin/master, origin/HEAD, master)
-- fixed hero issue
-
 # EZLBot / ChangeLog
 ## v4.2.2
 **Enhancements:**
