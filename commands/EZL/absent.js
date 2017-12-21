@@ -9,7 +9,7 @@ module.exports = class extends Command {
       cooldown: 0,
       aliases: ['abs'],
       permLevel: 0,
-      botPerms: [],
+      botPerms: ['MANAGE_ROLES'],
       requiredSettings: [],
       description: 'Make a request of a department. EZL COMMAND ONLY!',
       quotedStringSupport: false,
@@ -19,17 +19,14 @@ module.exports = class extends Command {
     })
   }
 
-  async run (msg, [abs, reas]) {
+  async run (msg, [abs, ...reas]) {
     if (msg.guild.id !== '389269211018428426') return msg.channel.send('Sorry this is a command only meant for EZL Staff Server.')
     const final = await reas.join(' ')
     switch (abs) {
       case 'reason':
         await this.client.channels.get('389554937853509633').send(final)
         return msg.channel.send('Worked! Have Fun!')
-      case 'Urgent':
-         await this.client.channels.get('389554937853509633').send(final)
-         return msg.channel.send('Worked! Have Fun!')
-      default:
+        break
         return msg.channel.send('Sorry, this is a EZL Command Only :smiley:')
     }
   }
