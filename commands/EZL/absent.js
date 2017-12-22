@@ -1,5 +1,8 @@
 const { Command } = require('klasa')
 const config = require('../../config/config.json')
+const absentrole = [
+  '393505548558925854'
+];
 module.exports = class extends Command {
   constructor (...args) {
     super(...args, {
@@ -13,15 +16,17 @@ module.exports = class extends Command {
       requiredSettings: [],
       description: 'Make a request of a department. EZL COMMAND ONLY!',
       quotedStringSupport: false,
-      usage: '<reason|urgent> <reas:str> [...]',
+      usage: '<reason|urgent> <reas:str> <author:member> [...]',
       usageDelim: ' ',
       extendedHelp: 'No extended help available.'
     })
   }
 
-  async run (msg, [abs, ...reas]) {
+  async run (msg, [author, abs, ...reas]) {
     if (msg.guild.id !== '389269211018428426') return msg.channel.send('Sorry this is a command only meant for EZL Staff Server.')
     const final = await reas.join(' ')
+    if (absentrole) author.removeRole('393505548558925854')
+    else author.addRole('393505548558925854')
     switch (abs) {
       case 'reason':
         await this.client.channels.get('389554937853509633').send(final)
